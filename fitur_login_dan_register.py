@@ -1,26 +1,13 @@
-"""Program Utama"""
+'''Fitur Login dan Registrasi'''
 
-import os
 import pandas as pd
 
-def clear():
-    '''memmbersihkan tampilan'''
-    os.system("cls")
-
-def header():
-    '''tampilan header'''
-    width = 100
-    print("="*width)
-    print("FarmOn".center(width))
-    print("="*width)
-
+# Register
 def register():
     '''register'''
-    clear()
-    header()
     username = input("username: ")
     password = input("password: ")
-
+    
     df = pd.read_csv("akun_pengguna.csv")
 
     user_baru = pd.DataFrame({
@@ -28,19 +15,16 @@ def register():
     "password": [password],
     "role": ["user"]
     })
-
+    
     df = pd.concat([df, user_baru], ignore_index=True)
-    df.to_csv("akun_pengguna.csv", index=False)
+    df.to_csv("akun_pengguna", index=False)
 
     print("Akun Berhasil dibuat. Silahkan login ulang!")
     input("Tekan enter untuk melanjutkan")
-    return login()
 
 # Login
 def login():
     '''Login'''
-    clear()
-    header()
     username = input("Username: ")
     password = input("Password: ")
 
@@ -52,16 +36,4 @@ def login():
         role = ambil_role.iloc[0,2]
         return role
     else:
-        print("Login gagal.\nApakah anda belum punya aku?")
-        konfirmasi_registrasi = input("Ketik [1] untuk register!" )
-        if konfirmasi_registrasi == "1":
-            return register()
-
-def main():
-    '''program utama'''
-    clear()
-    header()
-    user = login()
-    print(user)
-
-main()
+        return "Login gagal"
