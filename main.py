@@ -65,4 +65,3 @@ def main():
     print(user)
 
 main()
-print("hello world")
