@@ -36,7 +36,6 @@ def register():
     input("Tekan enter untuk melanjutkan")
     return login()
 
-# Login
 def login():
     '''Login'''
     clear()
@@ -53,8 +52,8 @@ def login():
         return role
     else:
         print("Login gagal.\nApakah anda belum punya aku?")
-        konfirmasi_registrasi = input("Ketik [1] untuk register!" )
-        if konfirmasi_registrasi == "1":
+        konfirmasi_registrasi = input("Masuk ke halaman registrasi! (y/n)" )
+        if konfirmasi_registrasi == "y":
             return register()
 
 def main():
