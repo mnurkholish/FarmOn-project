@@ -23,29 +23,38 @@ def intro():
     print("Tekan enter untuk memulai aplikasi".center(width) + "\n\n")
     input("="*width + "\n")
 
-def register():
-    '''register'''
-    clear()
-    header()
-    x = "REGISTER |"
-    print(x + "\n" + "-"*(len(x)-1) + "+")
-    username = input("username: ")
-    password = input("password: ")
+def registrasi():
+    '''registrasi'''
+    while True:
+        clear()
+        header()
+        x = "registrasi |"
+        print(x + "\n" + "-"*(len(x)-1) + "+")
 
-    df = pd.read_csv("akun_pengguna.csv")
+        username = input("username: ")
+        password = input("password: ")
+        confirm_password = input("confirm password: ")
+        role = "user"
 
-    user_baru = pd.DataFrame({
-    "username": [username],
-    "password": [password],
-    "role": ["user"]
-    })
+        if confirm_password != password:
+            print("password tidak sama silahkan coba lagi")
+            input("Tekan enter untuk mengulang")
+            continue
+
+        df = pd.read_csv("akun_pengguna.csv")
+        if username in df["username"].values:
+            print("username sudah ada, gunakan username yang berbeda")
+            input("tekan enter untuk mengulang")
+            continue
+        break
+
+    user_baru = pd.DataFrame([[username, password, role]], columns=["username", "password", "role"])
 
     df = pd.concat([df, user_baru], ignore_index=True)
     df.to_csv("akun_pengguna.csv", index=False)
 
-    print("Akun Berhasil dibuat. Silahkan login ulang!")
+    print("Akun berhasil dibuat. Silahkan login ulang!")
     input("Tekan enter untuk melanjutkan")
-    return login()
 
 def login():
     '''Login'''
@@ -63,11 +72,6 @@ def login():
     if not ambil_role.empty:
         role = ambil_role.iloc[0,2]
         return role
-    else:
-        print("Login gagal.\nApakah anda belum punya aku?")
-        konfirmasi_registrasi = input("Masuk ke halaman registrasi! (y/n)" )
-        if konfirmasi_registrasi == "y":
-            return register()
 
 def main():
     '''program utama'''
@@ -76,23 +80,28 @@ def main():
         while True:
             clear()
             header()
-            print("Pilih opsi\n1. Login\n2. Register\n3. Exit")
+            print("Pilih opsi\n1. Login\n2. registrasi\n3. Exit")
             opsi = input("Masukkan opsi pilihan sesuai angka (1/2/3) >")
             if opsi == "1":
                 role = login()
-                if role is None:
-                    print("Login gagal")
+                if role == "user":
+                    print("kamu adalah user")
+                    input()
+                elif role == "admin":
+                    print("kamu adalah admin")
+                    input()
+                else:
+                    print("Login gagal, username tidak ditemukan")
+                    print("Silahkan pilih opsi registrasi jika anda belum punya akun")
+                    input("Tekan enter untuk melanjutkan")
                     continue
-                break
+
             elif opsi == "2":
-                role = register()
-                break
+                registrasi()
+
             elif opsi == "3": # kembali ke perulangan intro
                 print("Terima kasih")
                 input()
                 return
-
-        print(role)
-        input()
 
 main()

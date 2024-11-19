@@ -1,6 +1,6 @@
-jenis,nama,satuan,harga
-buah,apel,kg,10
-buah,nanas,kg,20
-sayuran,bayam,ikat,2
-serealia,beras,kg,14
-serealia,gandum,kg,20
+jenis,nama,satuan,harga,stok
+buah,apel,kg,10,100
+buah,nanas,kg,20,89
+sayuran,bayam,ikat,2,87
+serealia,beras,kg,14,28
+serealia,gandum,kg,20,77

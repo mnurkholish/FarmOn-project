@@ -51,5 +51,3 @@ def main():
         elif opsi == "3":
             lihat_produk("serealia")
             break
-
-main()

@@ -6,7 +6,8 @@ produk = {
     "jenis" : ["buah", "buah", "sayuran", "serealia", "serealia"],
     "nama" : ["apel", "nanas", "bayam", "beras", "gandum"],
     "satuan" : ["kg", "kg", "ikat", "kg", "kg"],
-    "harga" : [10, 20, 2, 14, 20]
+    "harga" : [10, 20, 2, 14, 20],
+    "stok" : [100, 89, 87, 28, 77]
 }
 
 df = pd.DataFrame(produk)
