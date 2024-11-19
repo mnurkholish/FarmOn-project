@@ -14,10 +14,21 @@ def header():
     print("FarmOn".center(width))
     print("="*width)
 
+def intro():
+    '''tampilan pertama aplikasi'''
+    clear()
+    header()
+    width = 100
+    print("\n\n" + "Selamat Datang di aplikasi FarmOn".center(width))
+    print("Tekan enter untuk memulai aplikasi".center(width) + "\n\n")
+    input("="*width + "\n")
+
 def register():
     '''register'''
     clear()
     header()
+    x = "REGISTER |"
+    print(x + "\n" + "-"*(len(x)-1) + "+")
     username = input("username: ")
     password = input("password: ")
 
@@ -40,6 +51,8 @@ def login():
     '''Login'''
     clear()
     header()
+    x = "LOGIN |"
+    print(x + "\n" + "-"*(len(x)-1) + "+")
     username = input("Username: ")
     password = input("Password: ")
 
@@ -58,9 +71,28 @@ def login():
 
 def main():
     '''program utama'''
-    clear()
-    header()
-    user = login()
-    print(user)
+    while True:
+        intro()
+        while True:
+            clear()
+            header()
+            print("Pilih opsi\n1. Login\n2. Register\n3. Exit")
+            opsi = input("Masukkan opsi pilihan sesuai angka (1/2/3) >")
+            if opsi == "1":
+                role = login()
+                if role is None:
+                    print("Login gagal")
+                    continue
+                break
+            elif opsi == "2":
+                role = register()
+                break
+            elif opsi == "3": # kembali ke perulangan intro
+                print("Terima kasih")
+                input()
+                return
+
+        print(role)
+        input()
 
 main()
