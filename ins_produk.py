@@ -10,5 +10,11 @@ produk = {
     "stok" : [100, 89, 87, 28, 77]
 }
 
-df = pd.DataFrame(produk)
-df.to_csv("data_produk.csv", index=False)
+df = pd.read_csv("data_produk.csv")
+baris = df[(df["jenis"] == "buah") & (df["nama"] == "nanas")]
+index_baris = baris.index[0]
+print(index_baris)
+stok = baris.loc[index_baris, "stok"]
+print(baris.loc[index_baris, "satuan"])
+print(baris.loc[index_baris, "stok"])
+print(df)

@@ -67,7 +67,24 @@ def hapus_produk(jenis, nama):
     else:
         print("produk tidak ada")
 
-hapus_produk("buah", "rambutan")
+def tambah_stok(jenis, nama):
+    '''Tambah stok'''
+    df = pd.read_csv("data_produk.csv")
+
+    if (jenis in df["jenis"].values) and (nama in df["nama"].values):
+        baris_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)]
+        index_baris_produk = baris_produk.index[0]
+        stok_lama = baris_produk.loc[index_baris_produk, "stok"]
+        satuan = baris_produk.loc[index_baris_produk, "satuan"]
+        nama = baris_produk.loc[index_baris_produk, "nama"]
+        tambah = int(input(f"Berapa {satuan} {nama} yang akan ditambahkan: "))
+        stok_baru = stok_lama + tambah
+        df.loc[index_baris_produk, "stok"] = [stok_baru]
+        df.to_csv("data_produk.csv", index=False)
+        
+    print(baris_produk)
+
+tambah_stok("sayuran", "bayam")
 
 def main():
     '''run'''
