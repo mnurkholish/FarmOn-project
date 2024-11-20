@@ -62,8 +62,12 @@ def login():
     header()
     x = "LOGIN |"
     print(x + "\n" + "-"*(len(x)-1) + "+")
+
     username = input("Username: ")
     password = input("Password: ")
+
+    global user # pylint: disable=global-variable-undefined
+    user = username
 
     df = pd.read_csv("akun_pengguna.csv")
 
@@ -80,7 +84,7 @@ def main():
         while True:
             clear()
             header()
-            print("Pilih opsi\n1. Login\n2. registrasi\n3. Exit")
+            print("Pilih opsi\n1. Login\n2. registrasi\n0. Exit")
             opsi = input("Masukkan opsi pilihan sesuai angka (1/2/3) >")
             if opsi == "1":
                 role = login()
@@ -99,7 +103,7 @@ def main():
             elif opsi == "2":
                 registrasi()
 
-            elif opsi == "3": # kembali ke perulangan intro
+            elif opsi == "0":
                 print("Terima kasih")
                 input()
                 return
