@@ -1,5 +1,5 @@
-username,password,role,Unnamed: 3
-admin,123,admin,
-user1,pass1,user,
-user2,pass2,user,
-user,user,user,
+username,password,role
+admin,123,admin
+user1,pass1,user
+user2,pass2,user
+user3,pass3,user
