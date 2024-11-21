@@ -67,24 +67,40 @@ def hapus_produk(jenis, nama):
     else:
         print("produk tidak ada")
 
-def tambah_stok(jenis, nama):
+def edit_stok(operasi):
     '''Tambah stok'''
-    df = pd.read_csv("data_produk.csv")
+    while True:
 
-    if (jenis in df["jenis"].values) and (nama in df["nama"].values):
-        baris_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)]
-        index_baris_produk = baris_produk.index[0]
-        stok_lama = baris_produk.loc[index_baris_produk, "stok"]
-        satuan = baris_produk.loc[index_baris_produk, "satuan"]
-        nama = baris_produk.loc[index_baris_produk, "nama"]
-        tambah = int(input(f"Berapa {satuan} {nama} yang akan ditambahkan: "))
-        stok_baru = stok_lama + tambah
-        df.loc[index_baris_produk, "stok"] = [stok_baru]
-        df.to_csv("data_produk.csv", index=False)
-        
-    print(baris_produk)
+        jenis = input("jenis")
+        nama = input("nama")
 
-tambah_stok("sayuran", "bayam")
+        df = pd.read_csv("data_produk.csv")
+
+        if (jenis in df["jenis"].values) and (nama in df["nama"].values):
+            baris_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)]
+            index_baris_produk = baris_produk.index[0]
+            stok_lama = baris_produk.loc[index_baris_produk, "stok"]
+            satuan = baris_produk.loc[index_baris_produk, "satuan"]
+            nama = baris_produk.loc[index_baris_produk, "nama"]
+
+            print("-"*20)
+
+            if operasi == "+":
+                print(f"Stok saat ini: {stok_lama} {satuan}")
+                tambah = int(input(f"Berapa {satuan} {nama} yang akan ditambahkan: "))
+                stok_baru = stok_lama + tambah
+                df.loc[index_baris_produk, "stok"] = [stok_baru]
+            elif operasi == "-":
+                print(f"Stok saat ini: {stok_lama} {satuan}")
+                kurang = int(input(f"Berapa {satuan} {nama} yang akan dikurangi: "))
+                stok_baru = stok_lama - kurang
+                df.loc[index_baris_produk, "stok"] = [stok_baru]
+
+            df.to_csv("data_produk.csv", index=False)
+            break
+        else:
+            print("Produk tidak ada")
+            input("Tolong masukkan nama dengan benar")
 
 def main():
     '''run'''
@@ -102,3 +118,5 @@ def main():
         elif opsi == "3":
             lihat_produk("serealia")
             break
+
+tambah_produk_baru("buah", "jeruk", "buah", 1, 100)
