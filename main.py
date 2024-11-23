@@ -97,8 +97,6 @@ def login():
         username = input("Username: ").strip()
         password = input("Password: ").strip()
 
-        user = username
-
         df = pd.read_csv("akun_pengguna.csv")
 
         ambil_role = df[(df["username"] == username) & (df["password"] == password)]
@@ -108,20 +106,4 @@ def login():
         else:
             role = ambil_role.iloc[0]['role']
 
-        return user, role
-
-def main_menu():
-    '''main menu'''
-    header("Main Menu")
-    
-
-def main():
-    '''program utama'''
-    intro()
-    a, b = login()
-    print(a)
-    print(b)
-    input()
-    outro()
-
-main()
+        return username, role
