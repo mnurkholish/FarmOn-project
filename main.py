@@ -3,12 +3,11 @@
 import os
 import pandas as pd
 
-def clear():
-    '''memmbersihkan tampilan'''
+def header(judul=None):
+    '''tampilan header'''
+    # clear terminal
     os.system("cls")
 
-def header():
-    '''tampilan header'''
     width = 100
     print("="*width)
     print("FarmOn".center(width))
@@ -16,7 +15,6 @@ def header():
 
 def intro():
     '''tampilan pertama aplikasi'''
-    clear()
     header()
     width = 100
     print("\n\n" + "Selamat Datang di aplikasi FarmOn".center(width))
@@ -26,7 +24,6 @@ def intro():
 def registrasi():
     '''registrasi'''
     while True:
-        clear()
         header()
         x = "registrasi |"
         print(x + "\n" + "-"*(len(x)-1) + "+")
@@ -58,7 +55,6 @@ def registrasi():
 
 def login():
     '''Login'''
-    clear()
     header()
     x = "LOGIN |"
     print(x + "\n" + "-"*(len(x)-1) + "+")
@@ -82,7 +78,6 @@ def main():
     while True:
         intro()
         while True:
-            clear()
             header()
             print("Pilih opsi\n1. Login\n2. registrasi\n0. Exit")
             opsi = input("Masukkan opsi pilihan sesuai angka (1/2/3) >")
