@@ -1,42 +1,33 @@
 """percobaan fitur produk"""
 
-import os
 import pandas as pd
-
-
-def clear():
-    '''memmbersihkan tampilan'''
-    os.system("cls")
-
-def header():
-    '''tampilan header'''
-    width = 100
-    print("="*width)
-    print("FarmOn".center(width))
-    print("="*width)
+from main import header
 
 def lihat_produk(jenis):
     '''daftar produk'''
-    clear()
-    header()
+    header("Daftar Produk")
 
     df = pd.read_csv("data_produk.csv")
     df = df[df["jenis"] == jenis]
     df = df.reset_index()
     df.drop(columns="index", inplace=True)
 
-    print("+---+" + "-"*19 + "+" + "-"*9 + "+" + "-"*18 + "+")
-    print(f"|{"No":>2}.| {"Nama":<18}| {"Satuan":<8}| {"Harga per Satuan":<17}|")
-    print("+---+" + "-"*19 + "+" + "-"*9 + "+" + "-"*18 + "+")
+    print(jenis.upper().center(71))
+    print("+" + "-"*5 + "+" + "-"*20 + "+" + "-"*10 + "+" + "-"*20 + "+" + "-"*10 + "+")
+    print(f"| {"No":>2}. | {"Nama":^18} | {"Satuan":^8} | {"Harga per Satuan":^18} | {"Stok":^8} |")
+    print("+" + "-"*5 + "+" + "-"*20 + "+" + "-"*10 + "+" + "-"*20 + "+" + "-"*10 + "+")
     for i in range(len(df)):
+        no = i+1
         nama = df.loc[i,"nama"]
         satuan = df.loc[i,"satuan"]
         harga = df.loc[i,"harga"]
-        print(f"|{i+1:>2}.| {nama:<18}| {satuan:<8}| Rp{harga:<15}|")
-    print("+---+" + "-"*19 + "+" + "-"*9 + "+" + "-"*18 + "+")
+        stok = df.loc[i, "stok"]
+        print(f"| {no:>2}. | {nama:<18} | {satuan:<8} | Rp{harga:<16} | {stok:<8} |")
+    print("+" + "-"*5 + "+" + "-"*20 + "+" + "-"*10 + "+" + "-"*20 + "+" + "-"*10 + "+")
 
 def tambah_produk_baru(jenis, nama, satuan, harga, stok):
     '''tambah produk'''
+    lihat_produk(jenis)
     df = pd.read_csv("data_produk.csv")
 
     if (jenis in df["jenis"].values) and (nama in df["nama"].values):
@@ -54,9 +45,11 @@ def tambah_produk_baru(jenis, nama, satuan, harga, stok):
         df = df.sort_values(by=["jenis", "nama"])
         df.to_csv("data_produk.csv", index=False)
         print("Berhasil ditambahkan")
+        input("Tekan enter untuk melanjutkan")
 
 def hapus_produk(jenis, nama):
     '''hapus produk'''
+    lihat_produk(jenis)
     df = pd.read_csv("data_produk.csv")
 
     if (jenis in df["jenis"].values) and (nama in df["nama"].values):
@@ -77,6 +70,8 @@ def edit_stok(operasi):
         df = pd.read_csv("data_produk.csv")
 
         if (jenis in df["jenis"].values) and (nama in df["nama"].values):
+            lihat_produk(jenis)
+
             baris_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)]
             index_baris_produk = baris_produk.index[0]
             stok_lama = baris_produk.loc[index_baris_produk, "stok"]
@@ -101,22 +96,3 @@ def edit_stok(operasi):
         else:
             print("Produk tidak ada")
             input("Tolong masukkan nama dengan benar")
-
-def main():
-    '''run'''
-    while True:
-        clear()
-        header()
-        print("Daftar Jenis Hasil Tani\n>1 Buah\n>2 Sayuran\n>3 Serealia\n")
-        opsi = input("Jenis hasil pertanian apa yang anda cari >")
-        if opsi == "1":
-            lihat_produk("buah")
-            break
-        elif opsi == "2":
-            lihat_produk("sayuran")
-            break
-        elif opsi == "3":
-            lihat_produk("serealia")
-            break
-
-tambah_produk_baru("buah", "jeruk", "buah", 1, 100)

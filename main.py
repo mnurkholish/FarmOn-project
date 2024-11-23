@@ -63,7 +63,7 @@ def registrasi():
                     huruf = True
                 if karakter.isnumeric():
                     angka = True
-            
+
             if not (huruf and angka):
                 print("Password harus berupa huruf dan angka")
                 input("Tekan untuk melanjutkan")
@@ -101,9 +101,9 @@ def login():
 
         ambil_role = df[(df["username"] == username) & (df["password"] == password)]
 
-        if ambil_role.empty:
-            role = None
-        else:
+        if not ambil_role.empty:
             role = ambil_role.iloc[0]['role']
+        else:
+            role = None
 
         return username, role
