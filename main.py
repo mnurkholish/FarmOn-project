@@ -94,10 +94,9 @@ def login():
     while True:
         header("Login")
 
-        username = input("Username: ")
-        password = input("Password: ")
+        username = input("Username: ").strip()
+        password = input("Password: ").strip()
 
-        global user # pylint: disable=global-variable-undefined
         user = username
 
         df = pd.read_csv("akun_pengguna.csv")
@@ -105,15 +104,24 @@ def login():
         ambil_role = df[(df["username"] == username) & (df["password"] == password)]
 
         if ambil_role.empty:
-            role = "penyusup"
+            role = None
         else:
             role = ambil_role.iloc[0]['role']
-        
-        return role
+
+        return user, role
+
+def main_menu():
+    '''main menu'''
+    header("Main Menu")
+    
 
 def main():
     '''program utama'''
     intro()
+    a, b = login()
+    print(a)
+    print(b)
+    input()
     outro()
 
 main()
