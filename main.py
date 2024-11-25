@@ -3,6 +3,8 @@
 import os
 import pandas as pd
 
+# =========================Fungsi Umum=========================
+
 def header(judul=None):
     '''tampilan header'''
     # clear terminal
@@ -34,6 +36,9 @@ def outro():
     print("Tekan enter untuk menutup aplikasi".center(width) + "\n\n")
     print("-"*width + "\n" + "=" * width)
     input()
+
+# =========================Fungsi Main Menu=========================
+
 
 def registrasi():
     '''registrasi'''
@@ -101,9 +106,13 @@ def login():
 
         ambil_role = df[(df["username"] == username) & (df["password"] == password)]
 
-        if not ambil_role.empty:
-            role = ambil_role.iloc[0]['role']
-        else:
+        if ambil_role.empty:
             role = None
+            print("Login gagal, pilih opsi registrasi untuk membuat akun.")
+            input("Tekan enter untuk melanjutkan")
+        else:
+            role = ambil_role.iloc[0]['role']
+            print(f"Login berhasil\nSelamat datang {username}.")
 
         return username, role
+
