@@ -25,27 +25,59 @@ def lihat_produk(jenis):
         print(f"| {no:>2}. | {nama:<18} | {satuan:<8} | Rp{harga:<16} | {stok:<8} |")
     print("+" + "-"*5 + "+" + "-"*20 + "+" + "-"*10 + "+" + "-"*20 + "+" + "-"*10 + "+")
 
-def tambah_produk_baru(jenis, nama, satuan, harga, stok):
+def tambah_produk():
     '''tambah produk'''
-    lihat_produk(jenis)
-    df = pd.read_csv("data_produk.csv")
+    while True:
+        header("Tambah Produk")
+        print("Pilih jenis hasil pertanian:")
+        print("1. Buah\n2. Rempah\n3. Sayuran\n4. Serealia")
+        opsi_jenis = input("Masukkan pilihan sesuai angka (1/2/3/4)> ")
+        if opsi_jenis == "1":
+            jenis = "buah"
+        elif opsi_jenis == "2":
+            jenis = "rempah"
+        elif opsi_jenis == "3":
+            jenis = "sayuran"
+        elif opsi_jenis == "4":
+            jenis = "serealia"
+        else:
+            print("Inputan tidak valid.")
+            input("Tekan enter untuk mengulangi")
+            continue
+        
+        header("Tambah Produk")
+        lihat_produk(jenis)
+        df = pd.read_csv("data_produk.csv")
 
-    if (jenis in df["jenis"].values) and (nama in df["nama"].values):
-        print("produk sudah ada")
-    else:
-        data = {
-            "jenis" : [jenis],
-            "nama" : [nama],
-            "satuan" : [satuan],
-            "harga" : [harga],
-            "stok" : [stok]
-        }
-        produk_baru = pd.DataFrame(data)
-        df = pd.concat([df, produk_baru], ignore_index=True)
-        df = df.sort_values(by=["jenis", "nama"])
-        df.to_csv("data_produk.csv", index=False)
-        print("Berhasil ditambahkan")
-        input("Tekan enter untuk melanjutkan")
+        while True:
+            header("Tambah Produk")
+            try:
+                nama = input("Masukkan nama hasil pertanian: ")
+                satuan = input("Tentukan satuan yang digunakan (kg/ikat/buah): ")
+                harga = int(input(f"Tentukan harga per-{satuan}: "))
+                stok = int(input(f"Berapa {satuan} stok yang akan dimasukkan: "))
+            except Exception as error:
+                print("Inputan tidak sesuai.", error)
+                input("Tekan enter untuk mengulangi")
+                continue
+            break
+
+        if (jenis in df["jenis"].values) and (nama in df["nama"].values):
+            print("produk sudah ada")
+        else:
+            data = {
+                "jenis" : [jenis],
+                "nama" : [nama],
+                "satuan" : [satuan],
+                "harga" : [harga],
+                "stok" : [stok]
+            }
+            produk_baru = pd.DataFrame(data)
+            df = pd.concat([df, produk_baru], ignore_index=True)
+            df = df.sort_values(by=["jenis", "nama"])
+            df.to_csv("data_produk.csv", index=False)
+            print("Berhasil ditambahkan")
+            input("Tekan enter untuk melanjutkan")
 
 def hapus_produk(jenis, nama):
     '''hapus produk'''
