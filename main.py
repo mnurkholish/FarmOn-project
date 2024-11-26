@@ -259,12 +259,12 @@ def edit_stok(operasi):
             input("Tekan enter untuk mengulangi")
             continue
 
+        lihat_produk(jenis)
         nama = input("Masukkan nama produk yang akan diedit: ").strip()
 
         df = pd.read_csv("data_produk.csv")
 
         if (jenis in df["jenis"].values) and (nama in df["nama"].values):
-            lihat_produk(jenis)
 
             baris_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)]
             if nama in baris_produk["nama"].values:
@@ -291,6 +291,8 @@ def edit_stok(operasi):
             df.to_csv("data_produk.csv", index=False)
 
             print("Berhasil diedit.")
+            print("\nKatalog Terbaru")
+            lihat_produk(jenis)
             input("Tekan enter untuk kembali")
         else:
             print("Produk tidak ada, tolong masukkan nama dengan benar.")
@@ -337,14 +339,20 @@ def menu_admin():
                         opsi = input("Masukkan pilihan opsi sesuai angka (1/2/0)> ")
                         if opsi == "1":
                             edit_stok("+")
+                            break
                         elif opsi == "2":
                             edit_stok("-")
+                            break
                         elif opsi == "0":
                             break
                         else:
                             print("Opsi tidak valid. Silakan masukkan angka 1, 2, atau 0.")
                             input("Tekan enter untuk mengulang")
-
+                elif opsi == "0":
+                    break
+                else:
+                    print("Opsi tidak valid. Silakan masukkan angka 1, 2, 3, 4 atau 0.")
+                    input("Tekan enter untuk mengulang")
 
         elif opsi == "2":
             # riwayat_transaksi()
