@@ -1,6 +1,9 @@
 jenis,nama,satuan,harga,stok
-buah,apel,kg,10,100
-buah,nanas,kg,20,89
+buah,apel,kg,20,100
+buah,jeruk,kg,20,80
+buah,nanas,kg,20,100
+buah,semangka,buah,10,70
+rempah,kunci,ons,10,100
 sayuran,bayam,ikat,2,87
 serealia,beras,kg,14,28
 serealia,gandum,kg,20,77
