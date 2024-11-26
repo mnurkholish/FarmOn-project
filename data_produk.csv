@@ -1,7 +1,8 @@
 jenis,nama,satuan,harga,stok
+buah,Padi,100,1000,50
 buah,apel,kg,20,100
 buah,jeruk,kg,20,80
-buah,leci,kg,10,20
+buah,leci,kg,10,40
 buah,nanas,kg,20,100
 buah,semangka,buah,10,60
 buah,srikaya,kg,20,112
