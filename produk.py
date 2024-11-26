@@ -44,7 +44,7 @@ def tambah_produk():
             print("Inputan tidak valid.")
             input("Tekan enter untuk mengulangi")
             continue
-        
+
         header("Tambah Produk")
         lihat_produk(jenis)
         df = pd.read_csv("data_produk.csv")

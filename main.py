@@ -207,58 +207,29 @@ def tambah_produk():
 
 def hapus_produk():
     '''hapus produk'''
-    while True:
-        header("Hapus Produk")
-        print("Pilih jenis hasil pertanian:")
-        print("1. Buah\n2. Rempah\n3. Sayuran\n4. Serealia")
-        opsi_jenis = input("Masukkan pilihan sesuai angka (1/2/3/4)> ")
-        if opsi_jenis == "1":
-            jenis = "buah"
-        elif opsi_jenis == "2":
-            jenis = "rempah"
-        elif opsi_jenis == "3":
-            jenis = "sayuran"
-        elif opsi_jenis == "4":
-            jenis = "serealia"
-        else:
-            print("Inputan tidak valid.")
-            input("Tekan enter untuk mengulangi")
-            continue
+    jenis = input_jenis("Hapus Produk")
 
+    lihat_produk(jenis)
+    nama = input("Masukkan nama produk: ").strip()
+    df = pd.read_csv("data_produk.csv")
+
+    if (jenis in df["jenis"].values) and (nama in df["nama"].values):
+        index_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)].index
+        df.drop(index=index_produk, inplace=True)
+        df.to_csv("data_produk.csv", index=False)
+        print("produk berhasil dihapus")
+        print("\nKatalog Terbaru")
         lihat_produk(jenis)
-        nama = input("Masukkan nama produk: ").strip()
-        df = pd.read_csv("data_produk.csv")
-
-        if (jenis in df["jenis"].values) and (nama in df["nama"].values):
-            index_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)].index
-            df.drop(index=index_produk, inplace=True)
-            df.to_csv("data_produk.csv", index=False)
-            print("produk berhasil dihapus")
-        else:
-            print("produk tidak ada")
-        input("Tekan enter untuk kembali")
-        break
+    else:
+        print("produk tidak ada")
+    input("Tekan enter untuk kembali")
 
 def edit_stok(operasi):
     '''Tambah stok'''
-    while True:
-        header("Edit Stok")
-        print("Pilih jenis hasil pertanian:")
-        print("1. Buah\n2. Rempah\n3. Sayuran\n4. Serealia")
-        opsi_jenis = input("Masukkan pilihan sesuai angka (1/2/3/4)> ")
-        if opsi_jenis == "1":
-            jenis = "buah"
-        elif opsi_jenis == "2":
-            jenis = "rempah"
-        elif opsi_jenis == "3":
-            jenis = "sayuran"
-        elif opsi_jenis == "4":
-            jenis = "serealia"
-        else:
-            print("Inputan tidak valid.")
-            input("Tekan enter untuk mengulangi")
-            continue
+    jenis = input_jenis("Tambah Produk")
 
+    while True:
+        header("Tambah Produk")
         lihat_produk(jenis)
         nama = input("Masukkan nama produk yang akan diedit: ").strip()
 
@@ -307,9 +278,10 @@ def edit_stok(operasi):
 
 def edit_harga():
     '''Edit Harga'''
-    while True:
-        jenis = input_jenis("Edit Harga")
+    jenis = input_jenis("Edit Harga")
 
+    while True:
+        header("Edit Harga")
         lihat_produk(jenis)
         nama = input("Masukkan nama produk: ").strip()
 
