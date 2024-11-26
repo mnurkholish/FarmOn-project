@@ -179,7 +179,7 @@ def tambah_produk():
             stok = int(input(f"Berapa {satuan} stok yang akan dimasukkan: ").strip())
         except: # pylint:disable=bare-except
             print("Inputan tidak sesuai.")
-            input("Tekan enter untuk mengulangi")
+            input("Tekan enter untuk mengulang")
             continue
         break
 
@@ -208,7 +208,7 @@ def tambah_produk():
 def hapus_produk():
     '''hapus produk'''
     while True:
-        header("Tambah Produk")
+        header("Hapus Produk")
         print("Pilih jenis hasil pertanian:")
         print("1. Buah\n2. Rempah\n3. Sayuran\n4. Serealia")
         opsi_jenis = input("Masukkan pilihan sesuai angka (1/2/3/4)> ")
@@ -277,16 +277,21 @@ def edit_stok(operasi):
                 input("Tekan enter untuk mengulang")
                 continue
 
-            if operasi == "+":
-                print(f"Stok saat ini: {stok_lama} {satuan}")
-                tambah = int(input(f"Berapa {satuan} {nama} yang akan ditambahkan: "))
-                stok_baru = stok_lama + tambah
-                df.loc[index_baris_produk, "stok"] = [stok_baru]
-            elif operasi == "-":
-                print(f"Stok saat ini: {stok_lama} {satuan}")
-                kurang = int(input(f"Berapa {satuan} {nama} yang akan dikurangi: "))
-                stok_baru = stok_lama - kurang
-                df.loc[index_baris_produk, "stok"] = [stok_baru]
+            try:
+                if operasi == "+":
+                    print(f"Stok saat ini: {stok_lama} {satuan}")
+                    tambah = int(input(f"Berapa {satuan} {nama} yang akan ditambahkan: "))
+                    stok_baru = stok_lama + tambah
+                    df.loc[index_baris_produk, "stok"] = [stok_baru]
+                elif operasi == "-":
+                    print(f"Stok saat ini: {stok_lama} {satuan}")
+                    kurang = int(input(f"Berapa {satuan} {nama} yang akan dikurangi: "))
+                    stok_baru = stok_lama - kurang
+                    df.loc[index_baris_produk, "stok"] = [stok_baru]
+            except:
+                print("Inputan tidak valid.")
+                input("Tekan enter untuk mengulang")
+                continue
 
             df.to_csv("data_produk.csv", index=False)
 
@@ -302,15 +307,37 @@ def edit_stok(operasi):
 
 def edit_harga():
     '''Edit Harga'''
-    jenis = input_jenis("Edit Harga")
-    nama = input("Masukkan nama produk: ")
+    while True:
+        jenis = input_jenis("Edit Harga")
 
-    df = pd.read_csv("data_produk.csv")
-
-    if (jenis in df["jenis"].values) and (nama in df["nama"].values):
         lihat_produk(jenis)
+        nama = input("Masukkan nama produk: ").strip()
 
+        df = pd.read_csv("data_produk.csv")
 
+        baris_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)]
+
+        try:
+            if (jenis in df["jenis"].values) and (nama in df["nama"].values):
+                harga_baru = int(input("Masukkan harga baru: "))
+                index = baris_produk.index[0]
+                df.at[index, 'harga'] = harga_baru
+                df.to_csv("data_produk.csv", index=False)
+
+                print("Berhasil diedit.")
+                print("\nKatalog Terbaru")
+                lihat_produk(jenis)
+                input("Tekan enter untuk kembali")
+            else:
+                print("Produk tidak ada, tolong masukkan nama dengan benar.")
+                input("Tekan enter untuk mengulang")
+                continue
+        except:
+            print("Inputan tidak valid.")
+            input("Tekan enter untuk mengulang")
+            continue
+
+        break
 
 # =========================Navigasi=========================
 
@@ -319,14 +346,14 @@ def menu_admin():
     while True:
         header("Menu Admin")
         print("Pilih opsi:")
-        print("1. Gudang\n2. Riwayat Transaksi\n3. Riwayat Masukan\n0. Kembali")
-        opsi = input("Masukkan pilihan opsi sesuai angka (1/2/0)> ")
+        print("1. Gudang\n2. Riwayat Transaksi\n3. Riwayat Masukan\n0. Logout")
+        opsi = input("Masukkan pilihan opsi sesuai angka (1/2/3/0)> ")
         if opsi == "1":
             while True:
                 header("Gudang")
                 print("Pilih opsi:")
                 print("1. Tambah produk\n2. Hapus Produk\n3. Edit Stok\n4. Edit Harga\n0. Kembali")
-                opsi = input("Masukkan pilihan opsi sesuai angka (1/2/0)> ")
+                opsi = input("Masukkan pilihan opsi sesuai angka (1/2/3/4/0)> ")
                 if opsi == "1":
                     tambah_produk()
                 elif opsi == "2":
@@ -339,15 +366,15 @@ def menu_admin():
                         opsi = input("Masukkan pilihan opsi sesuai angka (1/2/0)> ")
                         if opsi == "1":
                             edit_stok("+")
-                            break
                         elif opsi == "2":
                             edit_stok("-")
-                            break
                         elif opsi == "0":
                             break
                         else:
                             print("Opsi tidak valid. Silakan masukkan angka 1, 2, atau 0.")
                             input("Tekan enter untuk mengulang")
+                elif opsi == "4":
+                    edit_harga()
                 elif opsi == "0":
                     break
                 else:
