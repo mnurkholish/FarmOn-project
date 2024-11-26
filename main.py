@@ -51,12 +51,16 @@ def registrasi():
         # validasi username harus ada
         if not username:
             print("Username tidak boleh kosong")
-            input("Tekan enter untuk melanjutkan")
+            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+            if opsi == "0":
+                return
             continue
         # validasi password harus ada
         if not password:
             print("Password tidak boleh kosong")
-            input("Tekan enter untuk melanjutkan")
+            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+            if opsi == "0":
+                return
             continue
         # validasi password harus berupa huruf dan angka
         if password:
@@ -70,7 +74,9 @@ def registrasi():
 
             if not (huruf and angka):
                 print("Password harus berupa huruf dan angka")
-                input("Tekan untuk melanjutkan")
+                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+                if opsi == "0":
+                    return
                 continue
 
         data_akun = "akun_pengguna.csv"
@@ -79,7 +85,9 @@ def registrasi():
         # validasi username harus berbeda dari yang sudah ada
         if username in df["username"].values:
             print("username sudah ada, gunakan username yang berbeda")
-            input("tekan enter untuk mengulang")
+            opsi = input("tekan enter untuk mengulang atau 0 untuk kembali")
+            if opsi == "0":
+                return
             continue
 
         # jika syarat terpenuhi, membuat data baru
@@ -108,7 +116,7 @@ def login():
         if ambil_role.empty:
             role = None
             print("Login gagal, pilih opsi registrasi untuk membuat akun.")
-            input("Tekan enter untuk melanjutkan")
+            input("Tekan enter untuk kembali")
         else:
             role = ambil_role.iloc[0]['role']
             print(f"Login berhasil\nSelamat datang {username}.")
@@ -173,13 +181,15 @@ def tambah_produk():
         header("Tambah Produk")
         lihat_produk(jenis)
         try:
-            nama = input("Masukkan nama hasil pertanian: ").strip()
-            satuan = input("Tentukan satuan yang digunakan (kg/ikat/buah): ").strip()
+            nama = input("Masukkan nama hasil pertanian: ").strip().lower()
+            satuan = input("Tentukan satuan yang digunakan (kg/ikat/buah): ").strip().lower()
             harga = int(input(f"Tentukan harga per-{satuan}: ").strip())
             stok = int(input(f"Berapa {satuan} stok yang akan dimasukkan: ").strip())
         except: # pylint:disable=bare-except
             print("Inputan tidak sesuai.")
-            input("Tekan enter untuk mengulang")
+            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
+            if opsi == "0":
+                return
             continue
         break
 
@@ -199,30 +209,35 @@ def tambah_produk():
         df = pd.concat([df, produk_baru], ignore_index=True)
         df = df.sort_values(by=["jenis", "nama"])
         df.to_csv("data_produk.csv", index=False)
-        print("Berhasil ditambahkan")
 
         print("\nKatalog terbaru")
         lihat_produk(jenis)
+        print("Berhasil ditambahkan!")
         input("Tekan enter untuk kembali")
 
 def hapus_produk():
     '''hapus produk'''
     jenis = input_jenis("Hapus Produk")
 
-    lihat_produk(jenis)
-    nama = input("Masukkan nama produk: ").strip()
-    df = pd.read_csv("data_produk.csv")
-
-    if (jenis in df["jenis"].values) and (nama in df["nama"].values):
-        index_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)].index
-        df.drop(index=index_produk, inplace=True)
-        df.to_csv("data_produk.csv", index=False)
-        print("produk berhasil dihapus")
-        print("\nKatalog Terbaru")
+    while True:
         lihat_produk(jenis)
-    else:
-        print("produk tidak ada")
-    input("Tekan enter untuk kembali")
+        nama = input("Masukkan nama produk: ").strip().lower()
+        df = pd.read_csv("data_produk.csv")
+
+        if (jenis in df["jenis"].values) and (nama in df["nama"].values):
+            index_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)].index
+            df.drop(index=index_produk, inplace=True)
+            df.to_csv("data_produk.csv", index=False)
+            print("\nKatalog Terbaru")
+            lihat_produk(jenis)
+            print("produk berhasil dihapus!")
+            input("Tekan enter untuk kembali")
+        else:
+            print("produk tidak ada")
+            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+            if opsi == "0":
+                return
+            continue
 
 def edit_stok(operasi):
     '''Tambah stok'''
@@ -231,7 +246,7 @@ def edit_stok(operasi):
     while True:
         header("Tambah Produk")
         lihat_produk(jenis)
-        nama = input("Masukkan nama produk yang akan diedit: ").strip()
+        nama = input("Masukkan nama produk yang akan diedit: ").strip().lower()
 
         df = pd.read_csv("data_produk.csv")
 
@@ -245,7 +260,9 @@ def edit_stok(operasi):
                 nama = baris_produk.loc[index_baris_produk, "nama"]
             else:
                 print("Produk tidak ada, tolong masukkan nama dengan benar.")
-                input("Tekan enter untuk mengulang")
+                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+                if opsi == "0":
+                    return
                 continue
 
             try:
@@ -261,18 +278,22 @@ def edit_stok(operasi):
                     df.loc[index_baris_produk, "stok"] = [stok_baru]
             except:
                 print("Inputan tidak valid.")
-                input("Tekan enter untuk mengulang")
+                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+                if opsi == "0":
+                    return
                 continue
 
             df.to_csv("data_produk.csv", index=False)
 
-            print("Berhasil diedit.")
             print("\nKatalog Terbaru")
             lihat_produk(jenis)
+            print("Berhasil diedit!")
             input("Tekan enter untuk kembali")
         else:
             print("Produk tidak ada, tolong masukkan nama dengan benar.")
-            input("Tekan enter untuk mengulang")
+            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+            if opsi == "0":
+                return
             continue
         break
 
@@ -283,7 +304,7 @@ def edit_harga():
     while True:
         header("Edit Harga")
         lihat_produk(jenis)
-        nama = input("Masukkan nama produk: ").strip()
+        nama = input("Masukkan nama produk: ").strip().lower()
 
         df = pd.read_csv("data_produk.csv")
 
@@ -296,17 +317,21 @@ def edit_harga():
                 df.at[index, 'harga'] = harga_baru
                 df.to_csv("data_produk.csv", index=False)
 
-                print("Berhasil diedit.")
                 print("\nKatalog Terbaru")
                 lihat_produk(jenis)
+                print("Berhasil diedit!")
                 input("Tekan enter untuk kembali")
             else:
                 print("Produk tidak ada, tolong masukkan nama dengan benar.")
-                input("Tekan enter untuk mengulang")
+                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+                if opsi == "0":
+                    return
                 continue
         except:
             print("Inputan tidak valid.")
-            input("Tekan enter untuk mengulang")
+            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+            if opsi == "0":
+                return
             continue
 
         break
@@ -392,8 +417,3 @@ def main():
 # =========================Mai Program=========================
 
 main()
-
-# coba coba
-
-# ggg
-# halo
