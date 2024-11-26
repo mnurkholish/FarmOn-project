@@ -32,7 +32,8 @@ def registrasi():
         print(x + "\n" + "-"*(len(x)-1) + "+")
 
         username = input("username: ")
-        password = input("password: ")
+        password = input(
+            "password: ")
         confirm_password = input("confirm password: ")
         role = "user"
 
