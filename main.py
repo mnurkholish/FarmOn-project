@@ -276,7 +276,7 @@ def edit_stok(operasi):
                     kurang = int(input(f"Berapa {satuan} {nama} yang akan dikurangi: "))
                     stok_baru = stok_lama - kurang
                     df.loc[index_baris_produk, "stok"] = [stok_baru]
-            except:
+            except: # pylint:disable=bare-except
                 print("Inputan tidak valid.")
                 opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
                 if opsi == "0":
@@ -327,7 +327,7 @@ def edit_harga():
                 if opsi == "0":
                     return
                 continue
-        except:
+        except: # pylint:disable=bare-except
             print("Inputan tidak valid.")
             opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
             if opsi == "0":
