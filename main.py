@@ -51,14 +51,14 @@ def registrasi():
         # validasi username harus ada
         if not username:
             print("Username tidak boleh kosong")
-            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
         # validasi password harus ada
         if not password:
             print("Password tidak boleh kosong")
-            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
@@ -74,7 +74,7 @@ def registrasi():
 
             if not (huruf and angka):
                 print("Password harus berupa huruf dan angka")
-                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
                 if opsi == "0":
                     return
                 continue
@@ -85,7 +85,7 @@ def registrasi():
         # validasi username harus berbeda dari yang sudah ada
         if username in df["username"].values:
             print("username sudah ada, gunakan username yang berbeda")
-            opsi = input("tekan enter untuk mengulang atau 0 untuk kembali")
+            opsi = input("tekan enter untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
@@ -168,9 +168,9 @@ def lihat_produk(jenis):
         print(f"| {no:>2}. | {nama:<18} | {satuan:<8} | Rp{harga:<16} | {stok:<8} |")
     print("+" + "-"*5 + "+" + "-"*20 + "+" + "-"*10 + "+" + "-"*20 + "+" + "-"*10 + "+")
 
-def katalog(jenis):
+def katalog(nama_header, jenis):
     '''Katalog Produk'''
-    header("Katalog")
+    header(nama_header)
     lihat_produk(jenis)
 
 def tambah_produk():
@@ -178,8 +178,7 @@ def tambah_produk():
     jenis = input_jenis("Tambah Produk")
 
     while True:
-        header("Tambah Produk")
-        lihat_produk(jenis)
+        katalog("Tambah Produk", jenis)
         try:
             nama = input("Masukkan nama hasil pertanian: ").strip().lower()
             satuan = input("Tentukan satuan yang digunakan (kg/ikat/buah): ").strip().lower()
@@ -220,7 +219,7 @@ def hapus_produk():
     jenis = input_jenis("Hapus Produk")
 
     while True:
-        lihat_produk(jenis)
+        katalog("Hapus Produk", jenis)
         nama = input("Masukkan nama produk: ").strip().lower()
         df = pd.read_csv("data_produk.csv")
 
@@ -234,18 +233,18 @@ def hapus_produk():
             input("Tekan enter untuk kembali")
         else:
             print("produk tidak ada")
-            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
+        break
 
 def edit_stok(operasi):
-    '''Tambah stok'''
-    jenis = input_jenis("Tambah Produk")
+    '''Edit Stok'''
+    jenis = input_jenis("Edit Stok")
 
     while True:
-        header("Tambah Produk")
-        lihat_produk(jenis)
+        katalog("Edit Stok", jenis)
         nama = input("Masukkan nama produk yang akan diedit: ").strip().lower()
 
         df = pd.read_csv("data_produk.csv")
@@ -260,7 +259,7 @@ def edit_stok(operasi):
                 nama = baris_produk.loc[index_baris_produk, "nama"]
             else:
                 print("Produk tidak ada, tolong masukkan nama dengan benar.")
-                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
                 if opsi == "0":
                     return
                 continue
@@ -278,7 +277,7 @@ def edit_stok(operasi):
                     df.loc[index_baris_produk, "stok"] = [stok_baru]
             except: # pylint:disable=bare-except
                 print("Inputan tidak valid.")
-                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
                 if opsi == "0":
                     return
                 continue
@@ -291,7 +290,7 @@ def edit_stok(operasi):
             input("Tekan enter untuk kembali")
         else:
             print("Produk tidak ada, tolong masukkan nama dengan benar.")
-            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
@@ -302,8 +301,7 @@ def edit_harga():
     jenis = input_jenis("Edit Harga")
 
     while True:
-        header("Edit Harga")
-        lihat_produk(jenis)
+        katalog("Edit Harga", jenis)
         nama = input("Masukkan nama produk: ").strip().lower()
 
         df = pd.read_csv("data_produk.csv")
@@ -323,13 +321,13 @@ def edit_harga():
                 input("Tekan enter untuk kembali")
             else:
                 print("Produk tidak ada, tolong masukkan nama dengan benar.")
-                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
                 if opsi == "0":
                     return
                 continue
         except: # pylint:disable=bare-except
             print("Inputan tidak valid.")
-            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali")
+            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
