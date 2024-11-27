@@ -1,7 +1,7 @@
 jenis,nama,satuan,harga,stok
 buah,alpukat,kg,21000,13
-buah,apel,kg,10000,100
-buah,buah naga,kg,21000,12
+buah,apel,kg,20000,80
+buah,buah naga,kg,21000,9
 buah,jeruk,kg,20000,80
 buah,leci,kg,10000,40
 buah,lemon,kg,18000,20
@@ -10,7 +10,7 @@ buah,pepaya,buah,10000,31
 buah,semangka,buah,10000,60
 buah,srikaya,kg,20000,112
 rempah,cengkih,kg,324000,3
-rempah,jahe,kg,31000,34
+rempah,jahe,kg,31000,30
 rempah,kapulaga,kg,254000,5
 rempah,kunyit,kg,14000,29
 rempah,lengkuas,kg,18000,24
@@ -18,7 +18,7 @@ rempah,pala,kg,311000,3
 sayuran,bayam,ikat,2000,87
 sayuran,brokoli,kg,26000,27
 sayuran,buncis,kg,16000,10
-sayuran,cabai merah,kg,35000,45
+sayuran,cabai merah,kg,35000,43
 sayuran,kangkung,ikat,5000,42
 sayuran,kol,kg,9000,12
 sayuran,sawi,ikat,6000,21
