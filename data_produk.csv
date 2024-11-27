@@ -1,37 +1,37 @@
 jenis,nama,satuan,harga,stok
-buah,alpukat,kg,21,13
-buah,apel,kg,10,100
-buah,buah naga,kg,21,12
-buah,jeruk,kg,20,80
-buah,leci,kg,10,40
-buah,lemon,kg,18,20
-buah,nanas,kg,20,89
-buah,pepaya,buah,10,31
-buah,semangka,buah,10,60
-buah,srikaya,kg,20,112
-rempah,cengkih,kg,324,3
-rempah,jahe,kg,31,34
-rempah,kapulaga,kg,254,5
-rempah,kunyit,kg,14,29
-rempah,lengkuas,kg,18,24
-rempah,pala,kg,311,3
-sayuran,bayam,ikat,2,87
-sayuran,brokoli,kg,26,27
-sayuran,buncis,kg,16,10
-sayuran,cabai merah,kg,35,45
-sayuran,kangkung,ikat,5,42
-sayuran,kol,kg,9,12
-sayuran,sawi,ikat,6,21
-sayuran,terong,kg,10,35
-sayuran,tomat,kg,10,23
-sayuran,wortel,kg,12,32
-serealia,barley,kg,46,12
-serealia,beras,kg,14,28
-serealia,gandum,kg,20,77
-serealia,jagung,kg,11,52
-serealia,ketan hitam,kg,24,26
-serealia,ketan putih,kg,19,24
-serealia,millet,kg,27,17
-serealia,oats,kg,43,34
-serealia,quinoa,kg,79,10
-serealia,sorghum,kg,23,14
+buah,alpukat,kg,21000,13
+buah,apel,kg,10000,100
+buah,buah naga,kg,21000,12
+buah,jeruk,kg,20000,80
+buah,leci,kg,10000,40
+buah,lemon,kg,18000,20
+buah,nanas,kg,20000,89
+buah,pepaya,buah,10000,31
+buah,semangka,buah,10000,60
+buah,srikaya,kg,20000,112
+rempah,cengkih,kg,324000,3
+rempah,jahe,kg,31000,34
+rempah,kapulaga,kg,254000,5
+rempah,kunyit,kg,14000,29
+rempah,lengkuas,kg,18000,24
+rempah,pala,kg,311000,3
+sayuran,bayam,ikat,2000,87
+sayuran,brokoli,kg,26000,27
+sayuran,buncis,kg,16000,10
+sayuran,cabai merah,kg,35000,45
+sayuran,kangkung,ikat,5000,42
+sayuran,kol,kg,9000,12
+sayuran,sawi,ikat,6000,21
+sayuran,terong,kg,10000,35
+sayuran,tomat,kg,10000,23
+sayuran,wortel,kg,12000,32
+serealia,barley,kg,46000,12
+serealia,beras,kg,14000,28
+serealia,gandum,kg,20000,77
+serealia,jagung,kg,11000,52
+serealia,ketan hitam,kg,24000,26
+serealia,ketan putih,kg,19000,24
+serealia,millet,kg,27000,17
+serealia,oats,kg,43000,34
+serealia,quinoa,kg,79000,10
+serealia,sorghum,kg,23000,14

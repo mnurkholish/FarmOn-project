@@ -334,6 +334,14 @@ def edit_harga():
 
         break
 
+# =========================Fungsi User=========================
+
+def katalog_user():
+    '''Katalog User'''
+    jenis = input_jenis("Katalog")
+    katalog("Katalog", jenis)
+    input("Tekan enter untuk kembali")
+
 # =========================Navigasi=========================
 
 def menu_admin():
@@ -414,4 +422,4 @@ def main():
 
 # =========================Mai Program=========================
 
-main()
+# main()
