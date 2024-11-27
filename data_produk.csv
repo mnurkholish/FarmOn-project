@@ -1,14 +1,20 @@
 jenis,nama,satuan,harga,stok
-buah,apel,kg,10,100
-buah,nanas,kg,20,89
 buah,alpukat,kg,21,13
+buah,apel,kg,10,100
 buah,buah naga,kg,21,12
 buah,jeruk,kg,20,80
 buah,leci,kg,10,40
 buah,lemon,kg,18,20
+buah,nanas,kg,20,89
 buah,pepaya,buah,10,31
 buah,semangka,buah,10,60
 buah,srikaya,kg,20,112
+rempah,cengkih,kg,324,3
+rempah,jahe,kg,31,34
+rempah,kapulaga,kg,254,5
+rempah,kunyit,kg,14,29
+rempah,lengkuas,kg,18,24
+rempah,pala,kg,311,3
 sayuran,bayam,ikat,2,87
 sayuran,brokoli,kg,26,27
 sayuran,buncis,kg,16,10
@@ -29,9 +35,3 @@ serealia,millet,kg,27,17
 serealia,oats,kg,43,34
 serealia,quinoa,kg,79,10
 serealia,sorghum,kg,23,14
-rempah,cengkih,kg,324,3
-rempah,jahe,kg,31,34
-rempah,kapulaga,kg,254,5
-rempah,kunyit,kg,14,29
-rempah,lengkuas,kg,18,24
-rempah,pala,kg,311,3
