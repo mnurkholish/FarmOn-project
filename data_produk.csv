@@ -1,4 +1,5 @@
 jenis,nama,satuan,harga,stok
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 buah,apel,kg,10,100
 buah,nanas,kg,20,89
@@ -14,6 +15,13 @@ buah,pepaya,buah,10,31
 buah,semangka,buah,10,60
 buah,srikaya,kg,20,112
 >>>>>>> Stashed changes
+=======
+buah,apel,kg,20,100
+buah,jeruk,kg,20,80
+buah,nanas,kg,20,100
+buah,semangka,buah,10,70
+rempah,kunci,ons,10,100
+>>>>>>> ba03844aa971b61ec5bf4a16631d9d53d7263069
 sayuran,bayam,ikat,2,87
 sayuran,brokoli,kg,26,27
 sayuran,buncis,kg,16,10
