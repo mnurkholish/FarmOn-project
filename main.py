@@ -2,6 +2,7 @@
 
 import os
 import pandas as pd
+from tabulate import tabulate
 
 # =========================Fungsi Umum=========================
 
@@ -333,13 +334,112 @@ def edit_harga():
             continue
 
         break
+    
+def keranjang(username, jenis):
+    """
+    Fungsi untuk menambahkan barang ke keranjang.
+    Data barang diambil dari file data_produk.csv.
+    """
+    try:
+        kolom_keranjang = ["username", "jenis", "nama", "jumlah", "harga", "total"]
+        
+        # Memuat file keranjang jika sudah ada, atau membuat baru
+        try:
+            keranjang_df = pd.read_csv("keranjang.csv")
+        except FileNotFoundError:
+            keranjang_df = pd.DataFrame(columns=kolom_keranjang)
+        
+        total_harga = 0
+
+        while True:
+            # jenis = input("Masukkan jenis produk yang ingin Anda lihat (contoh: Makanan, Minuman): ").strip()
+            katalog("Keranjang", jenis)  # Menampilkan katalog barang berdasarkan jenis
+            
+            df_produk = pd.read_csv("data_produk.csv")
+            df_produk = df_produk[df_produk["jenis"] == jenis].reset_index()
+            
+            try:
+                nomor_produk = int(input("Masukkan nomor produk yang ingin ditambahkan ke keranjang: "))
+                if nomor_produk < 1 or nomor_produk > len(df_produk):
+                    print(f"Pilih nomor produk antara 1 dan {len(df_produk)}.")
+                    continue
+                
+                # Mengambil informasi produk yang dipilih
+                index_produk = nomor_produk - 1
+                nama = df_produk.loc[index_produk, "nama"]
+                satuan = df_produk.loc[index_produk, "satuan"]
+                harga = df_produk.loc[index_produk, "harga"]
+                stok = df_produk.loc[index_produk, "stok"]
+                
+                jumlah = int(input(f"Berapa {satuan} {nama} yang ingin Anda beli? "))
+                if jumlah < 1 or jumlah > stok:
+                    print("Jumlah tidak valid atau stok tidak mencukupi.")
+                    continue
+                
+                # Menambahkan barang ke keranjang
+                total = harga * jumlah
+                total_harga += total
+                # Membuat DataFrame baru untuk baris tambahan
+                data_keranjang = pd.DataFrame([{
+                    "username": username,
+                    "jenis": jenis,
+                    "nama": nama,
+                    "jumlah": jumlah,
+                    "harga": harga,
+                    "total": total,
+                }])
+                
+                keranjang_df = pd.concat([keranjang_df, data_keranjang], ignore_index=True)
+                keranjang_df.to_csv("keranjang.csv", index=False)
+                
+                print(f"\n{nama} sebanyak {jumlah} {satuan} berhasil ditambahkan ke keranjang!")
+            
+            except ValueError:
+                print("Input tidak valid. Masukkan nomor produk atau jumlah yang benar.")
+                continue
+
+            # Menanyakan apakah pengguna ingin menambahkan barang lagi
+            opsi = input("Tekan ENTER untuk menambahkan barang lain atau ketik 'n' untuk selesai: ").lower()
+            if opsi == 'n':
+                break
+
+        print("\n=== Ringkasan Keranjang Anda ===")
+        print(keranjang_df[keranjang_df["username"] == username].to_string(index=False))
+
+    except Exception as e:
+        print(f"Terjadi kesalahan: {e}")
+
+# ========================Riwayat Transaksi============================
+def riwayat_transaksi():
+    """
+    Membaca dan menampilkan data dari file riwayat_transaksi.csv
+    """
+    try:
+        # Membaca file CSV
+        riwayat = pd.read_csv("riwayat_transaksi.csv")
+
+        # Cek apakah file kosong
+        if riwayat.empty:
+            print("Riwayat transaksi kosong.")
+            return
+
+        # Menampilkan data riwayat transaksi
+        print("\n=== Riwayat Transaksi ===\n")
+        print(tabulate(riwayat, headers="keys", tablefmt="grid", showindex=False)) #menampilkan data dengan tampilan tabel
+        
+    except FileNotFoundError:
+        print("File 'riwayat_transaksi.csv' tidak ditemukan.")
+    except pd.errors.EmptyDataError:
+        print("File 'riwayat_transaksi.csv' kosong.")
+    except Exception as e:
+        print(f"Terjadi kesalahan: {e}")
 
 # =========================Fungsi User=========================
 
-def katalog_user():
+def katalog_user(username):
     '''Katalog User'''
     jenis = input_jenis("Katalog")
-    katalog("Katalog", jenis)
+    keranjang(username, jenis)
     input("Tekan enter untuk kembali")
 
 # =========================Navigasi=========================
@@ -385,7 +485,7 @@ def menu_admin():
                     input("Tekan enter untuk mengulang")
 
         elif opsi == "2":
-            # riwayat_transaksi()
+            riwayat_transaksi()
             input()
         elif opsi == "3":
             # riwayat_masukan()
@@ -407,6 +507,7 @@ def main():
                 menu_admin()
             elif role == "user":
                 # menu_user(username)
+                katalog_user(username)
                 input()
             else:
                 continue
@@ -422,4 +523,6 @@ def main():
 
 # =========================Mai Program=========================
 
-# main()
+main()
+# # keranjang('surya')
+# katalog_user()
