@@ -85,7 +85,7 @@ def registrasi():
 
         # validasi username harus berbeda dari yang sudah ada
         if username in df["username"].values:
-            print("username sudah ada, gunakan username yang berbeda")
+            print("username sudah ada, buatlah username yang berbeda")
             opsi = input("tekan enter untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
@@ -116,7 +116,7 @@ def login():
 
         if ambil_role.empty:
             role = None
-            print("Login gagal, pilih opsi registrasi untuk membuat akun.")
+            print("Login gagal, pilih opsi Registrasi untuk membuat akun.")
             input("Tekan enter untuk kembali")
         else:
             role = ambil_role.iloc[0]['role']
