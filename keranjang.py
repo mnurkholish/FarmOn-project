@@ -69,5 +69,35 @@ def keranjang_transaski(username):
         opsi = input("Tekan enter jika ingin menambahkan barang ke keranjang lagi atau ketik 'n' jika tidak").lower() #pylint:disable=line-too-long
         if opsi == "n":
             break
+    
+    print("\nPilih jarak pengiriman: ")
+    print("1. Jarak <2 km")
+    print("2. Jarak 2 km - 7km")
+    print("3. Jarak 7 km - 15 km")
+    print("4. Jarak 15 km - 20 km")
 
-# keranjang_transaski("User")
+    while True:
+        try:
+            pilihan_ongkir = int(input("Masukkan pilihan ongkir (1/2/3/4): "))
+            if pilihan_ongkir == 1:
+                ongkir = 3000
+            elif pilihan_ongkir == 2:
+                ongkir = 6000
+            elif pilihan_ongkir == 3:
+                ongkir = 11000
+            elif pilihan_ongkir == 4:
+                ongkir = 15000
+            else:
+                print("Masukkan angka 1, 2, 3, atau 4")
+                continue
+            break
+        except ValueError:
+            print("Input harus berupa angka. Silahkan coba lagi")
+
+    total_harga_akhir = total_harga + ongkir
+    print(f"\nTotal harga barang: Rp{total_harga}")
+    print(f"Biaya ongkir: Rp{ongkir}")
+    print(f"Total harga yang harus dibayar: Rp{total_harga_akhir}")
+
+    return total_harga_akhir
+    # keranjang_transaski("User")
