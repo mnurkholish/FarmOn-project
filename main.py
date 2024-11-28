@@ -399,6 +399,7 @@ def main():
                 menu_admin()
             elif role == "user":
                 # menu_user(username)
+                print(username)
                 input()
             else:
                 continue
