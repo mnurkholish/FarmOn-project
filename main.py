@@ -2,7 +2,7 @@
 
 import os
 import pandas as pd
-# from tabulate import tabulate
+from tabulate import tabulate
 
 # =========================Fungsi Umum=========================
 
@@ -148,26 +148,26 @@ def input_jenis(nama_header):
             continue
         return jenis
 
-
 def lihat_produk(jenis):
     '''daftar produk'''
     df = pd.read_csv("data_produk.csv")
     df = df[df["jenis"] == jenis]
-    df = df.reset_index()
-    df.drop(columns="index", inplace=True)
+    df = df.reset_index(drop=True)
 
-    print(jenis.upper().center(71))
-    print("+" + "-"*5 + "+" + "-"*20 + "+" + "-"*10 + "+" + "-"*20 + "+" + "-"*10 + "+")
-    print(f"| {"No":>2}. | {"Nama":^18} | {"Satuan":^8} | {"Harga per Satuan":^18} | {"Stok":^8} |")
-    print("+" + "-"*5 + "+" + "-"*20 + "+" + "-"*10 + "+" + "-"*20 + "+" + "-"*10 + "+")
+    data = []
     for i in range(len(df)):
-        no = i+1
-        nama = df.loc[i,"nama"]
-        satuan = df.loc[i,"satuan"]
-        harga = df.loc[i,"harga"]
+        no = i + 1
+        nama = str(df.loc[i, "nama"]).title()
+        satuan = df.loc[i, "satuan"]
+        harga = df.loc[i, "harga"]
         stok = df.loc[i, "stok"]
-        print(f"| {no:>2}. | {nama:<18} | {satuan:<8} | Rp{harga:<16} | {stok:<8} |")
-    print("+" + "-"*5 + "+" + "-"*20 + "+" + "-"*10 + "+" + "-"*20 + "+" + "-"*10 + "+")
+        data.append([no, nama, satuan, f'Rp{harga}', stok])
+
+    tabel = tabulate(data, headers=["No.", "Nama", "Satuan", "Harga per Satuan", "Stok"],
+                     tablefmt='fancy_grid', numalign='left')
+    panjang_tabel = max(len(baris) for baris in tabel.splitlines())
+    print(jenis.upper().center(panjang_tabel))
+    print(tabel)
 
 def katalog(nama_header, jenis):
     '''Katalog Produk'''
@@ -334,48 +334,48 @@ def edit_harga():
             continue
 
         break
-    
+
+# =========================Fungsi User=========================
+
 def keranjang(username, jenis):
-    """
-    Fungsi untuk menambahkan barang ke keranjang.
-    Data barang diambil dari file data_produk.csv.
-    """
+    """Keranjang"""
     try:
         kolom_keranjang = ["username", "jenis", "nama", "jumlah", "harga", "total"]
-        
+
         # Memuat file keranjang jika sudah ada, atau membuat baru
         try:
             keranjang_df = pd.read_csv("keranjang.csv")
         except FileNotFoundError:
             keranjang_df = pd.DataFrame(columns=kolom_keranjang)
-        
+
         total_harga = 0
 
         while True:
-            # jenis = input("Masukkan jenis produk yang ingin Anda lihat (contoh: Makanan, Minuman): ").strip()
             katalog("Keranjang", jenis)  # Menampilkan katalog barang berdasarkan jenis
-            
+
             df_produk = pd.read_csv("data_produk.csv")
             df_produk = df_produk[df_produk["jenis"] == jenis].reset_index()
-            
+
             try:
-                nomor_produk = int(input("Masukkan nomor produk yang ingin ditambahkan ke keranjang: "))
+                nomor_produk = int(
+                    input("Masukkan nomor produk yang ingin ditambahkan ke keranjang: ")
+                )
                 if nomor_produk < 1 or nomor_produk > len(df_produk):
                     print(f"Pilih nomor produk antara 1 dan {len(df_produk)}.")
                     continue
-                
+
                 # Mengambil informasi produk yang dipilih
                 index_produk = nomor_produk - 1
                 nama = df_produk.loc[index_produk, "nama"]
                 satuan = df_produk.loc[index_produk, "satuan"]
                 harga = df_produk.loc[index_produk, "harga"]
                 stok = df_produk.loc[index_produk, "stok"]
-                
+
                 jumlah = int(input(f"Berapa {satuan} {nama} yang ingin Anda beli? "))
                 if jumlah < 1 or jumlah > stok:
                     print("Jumlah tidak valid atau stok tidak mencukupi.")
                     continue
-                
+
                 # Menambahkan barang ke keranjang
                 total = harga * jumlah
                 total_harga += total
@@ -388,12 +388,12 @@ def keranjang(username, jenis):
                     "harga": harga,
                     "total": total,
                 }])
-                
+
                 keranjang_df = pd.concat([keranjang_df, data_keranjang], ignore_index=True)
                 keranjang_df.to_csv("keranjang.csv", index=False)
-                
+
                 print(f"\n{nama} sebanyak {jumlah} {satuan} berhasil ditambahkan ke keranjang!")
-            
+
             except ValueError:
                 print("Input tidak valid. Masukkan nomor produk atau jumlah yang benar.")
                 continue
@@ -450,8 +450,8 @@ def masukan():
     try:
         df = pd.read_csv(masukan_csv)
     except FileNotFoundError:
-        df = pd.DataFrame(colums=kolom)
-    
+        df = pd.DataFrame(columns=kolom)
+
     # Input dari user
     print("=== Masukan saran anda ===")
     nama = input("Nama anda: ").strip()
@@ -503,8 +503,8 @@ def riwayat_transaksi():
 
         # Menampilkan data riwayat transaksi
         print("\n=== Riwayat Transaksi ===\n")
-        print(tabulate(riwayat, headers="keys", tablefmt="grid", showindex=False)) #menampilkan data dengan tampilan tabel
-        
+        print(tabulate(riwayat, headers="keys", tablefmt="fancy_grid", showindex=False)) #menampilkan data dengan tampilan tabel
+
     except FileNotFoundError:
         print("File 'riwayat_transaksi.csv' tidak ditemukan.")
     except pd.errors.EmptyDataError:
@@ -579,7 +579,7 @@ def menu_user():
         print("1. Pembelian\n2. Masukan\n0. Kembali")
         opsi = input("Masukkan pilihan opsi sesuai angka (1/2/0)> ")
         if opsi == "1":
-            ()
+            input()
             # pembelian()
         elif opsi == "2":
             masukan()
@@ -614,8 +614,6 @@ def main():
             print("Opsi tidak valid. Silakan masukkan angka 1, 2, atau 0.")
             input("Tekan enter untuk mengulang")
 
-# =========================Mai Program=========================
+# =========================Main Program=========================
 
-main()
-# # keranjang('surya')
-# katalog_user()
+keranjang("user", "buah")
