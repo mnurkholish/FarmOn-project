@@ -2,7 +2,7 @@
 
 import os
 import pandas as pd
-from tabulate import tabulate
+# from tabulate import tabulate
 
 # =========================Fungsi Umum=========================
 
@@ -403,11 +403,89 @@ def keranjang(username, jenis):
             if opsi == 'n':
                 break
 
+        print("\nPilih jarak pengiriman: ")
+        print("1. Jarak <2 km")
+        print("2. Jarak 2 km - 7km")
+        print("3. Jarak 7 km - 15 km")
+        print("4. Jarak 15 km - 20 km")
+
+        while True:
+            try:
+                pilihan_ongkir = int(input("Masukkan pilihan ongkir (1/2/3/4): "))
+                if pilihan_ongkir == 1:
+                    ongkir = 3000
+                elif pilihan_ongkir == 2:
+                    ongkir = 6000
+                elif pilihan_ongkir == 3:
+                    ongkir = 11000
+                elif pilihan_ongkir == 4:
+                    ongkir = 15000
+                else:
+                    print("Masukkan angka 1, 2, 3, atau 4")
+                    continue
+                break
+            except ValueError:
+                print("Input harus berupa angka. Silahkan coba lagi")
+
+        total_harga_akhir = total_harga + ongkir
+
         print("\n=== Ringkasan Keranjang Anda ===")
         print(keranjang_df[keranjang_df["username"] == username].to_string(index=False))
+        print(f"\nTotal harga barang: Rp{total_harga}")
+        print(f"Biaya ongkir: Rp{ongkir}")
+        print(f"Total yang harus dibayar: Rp{total_harga_akhir}")
 
     except Exception as e:
         print(f"Terjadi kesalahan: {e}")
+
+# =============================Masukan=================================
+def masukan():
+    """
+    Fungsi untuk menambahkan masukan user ke masukan.csv
+    """
+    kolom = ["ID", "Nama", "Masukan"]
+    masukan_csv = "masukan.csv"
+
+    # Coba membaca file CSV, jika tidak ada buat DataFrame baru
+    try:
+        df = pd.read_csv(masukan_csv)
+    except FileNotFoundError:
+        df = pd.DataFrame(colums=kolom)
+    
+    # Input dari user
+    print("=== Masukan saran anda ===")
+    nama = input("Nama anda: ").strip()
+    saran = input("Tuliskan saran anda: ").strip()
+    # username = (username)
+
+    # Menentukan ID berikutnya
+    next_id = len(df) + 1
+
+    # Menambahkan masukan ke DataFrame
+    new_row = {"ID": next_id, "Nama": nama, "Saran": saran}
+    df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+
+    # Simpan ke CSV
+    df.to_csv(masukan_csv, index=False)
+    print("\nMasukan anda berhasil disimpan. Terima Kasih!\n")
+
+def riwayat_masukan():
+    """
+    Fungsi untuk admin membaca semua masukan dari user
+    """
+    masukan_csv = "masukan.csv"
+
+    # Coba membaca file CSV
+    try:
+        df = pd.read_csv(masukan_csv)
+        print("\n=== Semua masukan ===")
+        if df.empty:
+            print("Tidak ada masukan")
+        else:
+            print(df.to_string(index=False))
+    except FileNotFoundError:
+        print("\nBelum ada masukan")
+
 
 # ========================Riwayat Transaksi============================
 def riwayat_transaksi():
@@ -488,8 +566,23 @@ def menu_admin():
             riwayat_transaksi()
             input()
         elif opsi == "3":
-            # riwayat_masukan()
+            riwayat_masukan()
             input()
+        elif opsi == "0":
+            break
+
+def menu_user():
+    '''Menu User'''
+    while True:
+        header("Menu User")
+        print("Pilih opsi:")
+        print("1. Pembelian\n2. Masukan\n0. Kembali")
+        opsi = input("Masukkan pilihan opsi sesuai angka (1/2/0)> ")
+        if opsi == "1":
+            ()
+            # pembelian()
+        elif opsi == "2":
+            masukan()
         elif opsi == "0":
             break
 
@@ -506,7 +599,7 @@ def main():
             if role == "admin":
                 menu_admin()
             elif role == "user":
-                # menu_user(username)
+                menu_user()
                 katalog_user(username)
                 input()
             else:
