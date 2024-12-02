@@ -372,6 +372,7 @@ def riwayat_transaksi():
         # Menampilkan data riwayat transaksi
         print("\n=== Riwayat Transaksi ===\n")
         print(tabulate(riwayat, headers="keys", tablefmt="fancy_grid", showindex=False))
+        input("Tekan enter untuk kembali")
 
     except FileNotFoundError:
         print("File 'riwayat_transaksi.csv' tidak ditemukan.")
@@ -399,6 +400,8 @@ def riwayat_masukan():
             print(df.to_string(index=False))
     except FileNotFoundError:
         print("\nBelum ada masukan")
+    
+    input("Tekan enter untuk kembali")
 
 # =========================Fungsi User=========================
 
@@ -719,6 +722,8 @@ def menu_user(username):
             katalog_user()
         elif opsi == "2":
             pembelian(username)
+        elif opsi == "3":
+            masukan()
         elif opsi == "0":
             break
 
