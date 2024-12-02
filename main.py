@@ -482,6 +482,7 @@ def masukan():
         writer.writerows(data)
 
     print("\nMasukan anda berhasil disimpan. Terima Kasih!\n")
+    input("Tekan enter untuk kembali")
 
 def riwayat_masukan():
     """
