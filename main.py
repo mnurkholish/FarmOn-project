@@ -1,8 +1,8 @@
 """Program Utama"""
 
 import os
-import pandas as pd
 import csv
+import pandas as pd
 from tabulate import tabulate
 
 # =========================Fungsi Umum=========================
