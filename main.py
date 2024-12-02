@@ -2,7 +2,8 @@
 
 import os
 import pandas as pd
-# from tabulate import tabulate
+import csv
+from tabulate import tabulate
 
 # =========================Fungsi Umum=========================
 
@@ -445,15 +446,12 @@ def keranjang(username, jenis):
         print(f"Terjadi kesalahan: {e}")
 
 # =============================Masukan=================================
-import csv
 
 def masukan():
     """
     Fungsi untuk menambahkan masukan user ke masukan.csv
     """
-    print("=" * 30)
-    print(" Masukan ".center(30, "="))
-    print("=" * 30)
+    header("Masukan")
     
     kolom = ["Nama", "Saran"]
     masukan_csv = "masukan.csv"
@@ -596,8 +594,7 @@ def menu_user():
         print("1. Pembelian\n2. Masukan\n0. Kembali")
         opsi = input("Masukkan pilihan opsi sesuai angka (1/2/0)> ")
         if opsi == "1":
-            ()
-            # pembelian()
+            input()
         elif opsi == "2":
             masukan()
         elif opsi == "0":
@@ -617,10 +614,6 @@ def main():
                 menu_admin()
             elif role == "user":
                 menu_user()
-                katalog_user(username)
-                input()
-            else:
-                continue
         elif opsi == "2":
             registrasi()
         elif opsi == "0":
