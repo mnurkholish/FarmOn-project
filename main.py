@@ -273,7 +273,13 @@ def edit_stok(operasi):
                     df.loc[index_baris_produk, "stok"] = [stok_baru]
                 elif operasi == "-":
                     print(f"Stok saat ini: {stok_lama} {satuan}")
-                    kurang = int(input(f"Berapa {satuan} {nama} yang akan dikurangi: "))
+                    while True:
+                        kurang = int(input(f"Berapa {satuan} {nama} yang akan dikurangi: "))
+                        if kurang > stok_lama:
+                            print("Tidak bisa mengurangi lebih dari jumlah stok lama")
+                            continue
+                        break
+
                     stok_baru = stok_lama - kurang
                     df.loc[index_baris_produk, "stok"] = [stok_baru]
             except: # pylint:disable=bare-except
@@ -443,7 +449,8 @@ def masukan():
     """
     Fungsi untuk menambahkan masukan user ke masukan.csv
     """
-    kolom = ["ID", "Nama", "Masukan"]
+    header("Masukan")
+    kolom = ["Nama", "Saran"]
     masukan_csv = "masukan.csv"
 
     # Coba membaca file CSV, jika tidak ada buat DataFrame baru
@@ -458,11 +465,8 @@ def masukan():
     saran = input("Tuliskan saran anda: ").strip()
     # username = (username)
 
-    # Menentukan ID berikutnya
-    next_id = len(df) + 1
-
     # Menambahkan masukan ke DataFrame
-    new_row = {"ID": next_id, "Nama": nama, "Saran": saran}
+    new_row = {"Nama": nama, "Saran": saran}
     df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
     # Simpan ke CSV
@@ -473,6 +477,7 @@ def riwayat_masukan():
     """
     Fungsi untuk admin membaca semua masukan dari user
     """
+    header("Riwayat Masukan")
     masukan_csv = "masukan.csv"
 
     # Coba membaca file CSV
