@@ -445,32 +445,44 @@ def keranjang(username, jenis):
         print(f"Terjadi kesalahan: {e}")
 
 # =============================Masukan=================================
+import csv
+
 def masukan():
     """
     Fungsi untuk menambahkan masukan user ke masukan.csv
     """
-    header("Masukan")
+    print("=" * 30)
+    print(" Masukan ".center(30, "="))
+    print("=" * 30)
+    
     kolom = ["Nama", "Saran"]
     masukan_csv = "masukan.csv"
 
-    # Coba membaca file CSV, jika tidak ada buat DataFrame baru
     try:
-        df = pd.read_csv(masukan_csv)
+        with open(masukan_csv, mode="r", newline='', encoding="utf-8") as file:
+            reader = csv.DictReader(file)
+            data = list(reader)
     except FileNotFoundError:
-        df = pd.DataFrame(colums=kolom)
-    
+        data = []
+
     # Input dari user
     print("=== Masukan saran anda ===")
     nama = input("Nama anda: ").strip()
     saran = input("Tuliskan saran anda: ").strip()
-    # username = (username)
 
-    # Menambahkan masukan ke DataFrame
+    # Menambahkan masukan ke data
     new_row = {"Nama": nama, "Saran": saran}
-    df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+    data.append(new_row)
 
     # Simpan ke CSV
-    df.to_csv(masukan_csv, index=False)
+    with open(masukan_csv, mode="w", newline='', encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=kolom)
+
+        # Tulis header hanya jika file kosong
+        if file.tell() == 0:
+            writer.writeheader()
+        writer.writerows(data)
+
     print("\nMasukan anda berhasil disimpan. Terima Kasih!\n")
 
 def riwayat_masukan():
