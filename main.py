@@ -586,7 +586,7 @@ def menu_admin():
         elif opsi == "0":
             break
 
-def menu_user():
+def menu_user(username):
     '''Menu User'''
     while True:
         header("Menu User")
@@ -613,7 +613,7 @@ def main():
             if role == "admin":
                 menu_admin()
             elif role == "user":
-                menu_user()
+                menu_user(username)
         elif opsi == "2":
             registrasi()
         elif opsi == "0":
