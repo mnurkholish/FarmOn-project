@@ -361,18 +361,20 @@ def riwayat_transaksi():
     Membaca dan menampilkan data dari file riwayat_transaksi.csv
     """
     try:
+        header("Riwayat Transaksi")
+
         # Membaca file CSV
         riwayat = pd.read_csv("riwayat_transaksi.csv")
 
         # Cek apakah file kosong
         if riwayat.empty:
-            print("Riwayat transaksi kosong.")
+            print("\nRiwayat transaksi kosong.")
+            input("\nTekan enter untuk kembali")
             return
-
+        
         # Menampilkan data riwayat transaksi
-        print("\n=== Riwayat Transaksi ===\n")
+        print("\n=== Riwayat Transaksi ===")
         print(tabulate(riwayat, headers="keys", tablefmt="fancy_grid", showindex=False))
-        input("Tekan enter untuk kembali")
 
     except FileNotFoundError:
         print("File 'riwayat_transaksi.csv' tidak ditemukan.")
@@ -380,6 +382,8 @@ def riwayat_transaksi():
         print("File 'riwayat_transaksi.csv' kosong.")
     except Exception as e: # pylint:disable=broad-exception-caught
         print(f"Terjadi kesalahan: {e}")
+
+    input("Tekan enter untuk kembali")
 
 # ===Riwayat Masukan===
 
@@ -393,14 +397,15 @@ def riwayat_masukan():
     # Coba membaca file CSV
     try:
         df = pd.read_csv(masukan_csv)
-        print("\n=== Semua masukan ===")
         if df.empty:
             print("Tidak ada masukan")
         else:
-            print(df.to_string(index=False))
+            print("\n=== Semua Masukan ===")
+            print(tabulate(df, headers="keys", tablefmt="fancy_grid", maxcolwidths=[15,40], showindex=False))
+
     except FileNotFoundError:
         print("\nBelum ada masukan")
-    
+
     input("Tekan enter untuk kembali")
 
 # =========================Fungsi User=========================
@@ -704,10 +709,8 @@ def menu_admin():
 
         elif opsi == "2":
             riwayat_transaksi()
-            input()
         elif opsi == "3":
             riwayat_masukan()
-            input()
         elif opsi == "0":
             break
 
