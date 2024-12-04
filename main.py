@@ -120,7 +120,7 @@ def registrasi():
             continue
 
         # jika syarat terpenuhi, membuat data baru
-        user_baru = pd.DataFrame([[username, password, role]], columns=["username", "password", "role"]) #pylint:disable=line-too-long
+        user_baru = pd.DataFrame([[username, password, role]], columns=["username", "password", "role"])
 
         # mengupdate data
         df = pd.concat([df, user_baru], ignore_index=True)
@@ -195,7 +195,7 @@ def tambah_produk():
             satuan = input("Tentukan satuan yang digunakan (kg/ikat/buah): ").strip().lower()
             harga = int(input(f"Tentukan harga per-{satuan}: ").strip())
             stok = int(input(f"Berapa {satuan} stok yang akan dimasukkan: ").strip())
-        except: # pylint:disable=bare-except
+        except:
             print("Inputan tidak sesuai.")
             opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
@@ -294,7 +294,7 @@ def edit_stok(operasi):
 
                     stok_baru = stok_lama - kurang
                     df.loc[index_baris_produk, "stok"] = [stok_baru]
-            except: # pylint:disable=bare-except
+            except:
                 print("Inputan tidak valid.")
                 opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
                 if opsi == "0":
@@ -345,7 +345,7 @@ def edit_harga():
                 if opsi == "0":
                     return
                 continue
-        except: # pylint:disable=bare-except
+        except:
             print("Inputan tidak valid.")
             opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
@@ -371,7 +371,7 @@ def riwayat_transaksi():
             print("\nRiwayat transaksi kosong.")
             input("\nTekan enter untuk kembali")
             return
-        
+
         # Menampilkan data riwayat transaksi
         print("\n=== Riwayat Transaksi ===")
         print(tabulate(riwayat, headers="keys", tablefmt="fancy_grid", showindex=False))
@@ -380,7 +380,7 @@ def riwayat_transaksi():
         print("File 'riwayat_transaksi.csv' tidak ditemukan.")
     except pd.errors.EmptyDataError:
         print("File 'riwayat_transaksi.csv' kosong.")
-    except Exception as e: # pylint:disable=broad-exception-caught
+    except Exception as e:
         print(f"Terjadi kesalahan: {e}")
 
     input("Tekan enter untuk kembali")
@@ -417,13 +417,13 @@ def katalog_user():
     while True:
         jenis = input_jenis("Katalog")
         katalog("Katalog", jenis)
-        opsi = input("Tekan enter untuk melihat jenis hasil pertanian lainnya atau '0' untuk kembali") # pylint:disable=line-too-long
+        opsi = input("Tekan enter untuk melihat jenis hasil pertanian lainnya atau '0' untuk kembali")
         if opsi == "0":
             break
 
 # ===Pembelian===
 
-def keranjang(username): # pylint:disable=redefined-outer-name
+def keranjang(username):
     '''Keranjang'''
     kolom_keranjang = ["username", "jenis", "nama", "jumlah", "harga", "total"]
     data_keranjang = []
@@ -443,7 +443,7 @@ def keranjang(username): # pylint:disable=redefined-outer-name
             katalog("Keranjang", jenis)
 
             try:
-                nomor_produk = int(input("Masukkan nomor produk yang ingin ditambahkan di keranjang: ")) #pylint:disable=line-too-long
+                nomor_produk = int(input("Masukkan nomor produk yang ingin ditambahkan di keranjang: "))
                 if nomor_produk < 1 or nomor_produk > len(df_produk):
                     print(f"Pilih nomor produk antara 1 dan {len(df_produk)}.")
                     input("Tekan enter untuk mengulang")
@@ -464,7 +464,7 @@ def keranjang(username): # pylint:disable=redefined-outer-name
                 total = harga * jumlah
                 total_harga += total
 
-                opsi = input("Tekan enter untuk menambahkan ke keranjang atau ketik '0' untuk membatalkan keranjang: ") #pylint:disable=line-too-long
+                opsi = input("Tekan enter untuk menambahkan ke keranjang atau ketik '0' untuk membatalkan keranjang: ")
                 if opsi == "0":
                     print(f"\n{nama} sebanyak {jumlah} {satuan} batal dimasukkan ke keranjang.")
                     break
@@ -478,7 +478,7 @@ def keranjang(username): # pylint:disable=redefined-outer-name
                 print("Inputan tidak sesuai.")
                 continue
 
-        opsi = input("\nTekan enter untuk menambahkan barang lain atau ketik 'n' untuk selesai: ").lower() #pylint:disable=line-too-long
+        opsi = input("\nTekan enter untuk menambahkan barang lain atau ketik 'n' untuk selesai: ").lower()
         if opsi == 'n':
             while True:
                 checkout = input("Apakah anda ingin melanjutkan transaksi? (y/n) ")
@@ -522,7 +522,7 @@ def tentukan_ongkir():
 
     return ongkir
 
-def cetak_nota(username, data_keranjang, total_harga, harga_ongkir, pembayaran): # pylint:disable=redefined-outer-name
+def cetak_nota(username, data_keranjang, total_harga, harga_ongkir, pembayaran):
     '''Nota'''
     header("Nota Pembayaran")
     print(f"Nama Pembeli: {username}\n")
@@ -583,7 +583,7 @@ def simpan_transaksi(data_keranjang):
 
     data_produk.to_csv("data_produk.csv", index=False)
 
-def pembelian(username): # pylint:disable=redefined-outer-name
+def pembelian(username):
     '''Alur Pembelian'''
     data_keranjang, total_harga = keranjang(username)
 
@@ -599,7 +599,7 @@ def pembelian(username): # pylint:disable=redefined-outer-name
             while True:
                 header("Pembayaran")
                 try:
-                    pembayaran = int(input(f"Total biaya adalah Rp{total_akhir}. Masukkan jumlah uang yang akan dibayar: Rp")) # pylint:disable=line-too-long
+                    pembayaran = int(input(f"Total biaya adalah Rp{total_akhir}. Masukkan jumlah uang yang akan dibayar: Rp"))
                     if pembayaran < total_akhir:
                         print("Uang yang dibayarkan tidak cukup.")
                         input("Tekan enter untuk coba lagi")
@@ -686,7 +686,7 @@ def menu_admin():
                     hapus_produk()
                 elif opsi == "3":
                     while True:
-                        header("Gudang")
+                        header("Edit Stok")
                         print("Pilih opsi:")
                         print("1. Tambah Stok\n2. Kurangi Stok\n0. Kembali")
                         opsi = input("Masukkan pilihan opsi sesuai angka (1/2/0)> ")
