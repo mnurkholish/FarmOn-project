@@ -22,20 +22,20 @@ def header(judul=None):
     print("-" * width)
 
 def intro():
-    '''tampilan pertama aplikasi'''
+    '''Tampilan Awal Aplikasi'''
     header()
     width = 100
     print("\n\n" + "Selamat Datang di aplikasi FarmOn".center(width))
-    print("Tekan enter untuk memulai aplikasi".center(width) + "\n\n")
+    print("Tekan ENTER untuk memulai aplikasi".center(width) + "\n\n")
     print("-"*width + "\n" + "=" * width)
     input()
 
 def outro():
-    """Tampilan penutup aplikasi"""
+    """Tampilan Akhir Aplikasi"""
     header()
     width = 100
     print("\n\n" + "Terima Kasih Telah Menggunakan Aplikasi FarmOn :)".center(width))
-    print("Tekan enter untuk menutup aplikasi".center(width) + "\n\n")
+    print("Tekan ENTER untuk menutup aplikasi".center(width) + "\n\n")
     print("-"*width + "\n" + "=" * width)
     input()
 
@@ -58,11 +58,11 @@ def login():
         if ambil_role.empty:
             role = None
             print("Login gagal, pilih opsi Registrasi untuk membuat akun.")
-            input("Tekan enter untuk kembali")
+            input("Tekan ENTER untuk kembali")
         else:
             role = ambil_role.iloc[0]['role']
-            print(f"Login berhasil\nSelamat datang {username}.")
-            input("Tekan enter untuk melanjutkan")
+            print(f"Login berhasil.\nSelamat datang {username}.")
+            input("Tekan ENTER untuk melanjutkan")
 
         return username, role
 
@@ -80,14 +80,14 @@ def registrasi():
         # validasi username harus ada
         if not username:
             print("Username tidak boleh kosong")
-            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
+            opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
         # validasi password harus ada
         if not password:
             print("Password tidak boleh kosong")
-            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
+            opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
@@ -103,18 +103,17 @@ def registrasi():
 
             if not (huruf and angka):
                 print("Password harus berupa huruf dan angka")
-                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
+                opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
                 if opsi == "0":
                     return
                 continue
 
-        data_akun = "akun_pengguna.csv"
-        df = pd.read_csv(data_akun)
+        df = pd.read_csv('akun_pengguna.csv')
 
         # validasi username harus berbeda dari yang sudah ada
         if username in df["username"].values:
             print("username sudah ada, buatlah username yang berbeda")
-            opsi = input("tekan enter untuk mengulang atau 0 untuk kembali> ")
+            opsi = input("tekan ENTER untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
@@ -124,10 +123,10 @@ def registrasi():
 
         # mengupdate data
         df = pd.concat([df, user_baru], ignore_index=True)
-        df.to_csv(data_akun, index=False)
+        df.to_csv('akun_pengguna.csv', index=False)
 
         print("Akun berhasil dibuat. Silahkan login ulang!")
-        input("Tekan enter untuk melanjutkan")
+        input("Tekan ENTER untuk melanjutkan")
         break
 
 # =========================Fungsi Admin=========================
@@ -152,7 +151,7 @@ def input_jenis(nama_header):
             jenis = "serealia"
         else:
             print("Inputan tidak valid.")
-            input("Tekan enter untuk mengulangi")
+            input("Tekan ENTER untuk mengulangi")
             continue
         return jenis
 
@@ -174,8 +173,7 @@ def lihat_produk(jenis):
 
     tabel = tabulate(data, headers=["No.", "Nama", "Satuan", "Harga per Satuan", "Stok"],
                      tablefmt='fancy_grid', numalign='left')
-    panjang_tabel = max(len(baris) for baris in tabel.splitlines())
-    print(jenis.upper().center(panjang_tabel))
+    print(' '*30 + jenis.upper())
     print(tabel)
 
 def katalog(nama_header, jenis):
@@ -197,7 +195,7 @@ def tambah_produk():
             stok = int(input(f"Berapa {satuan} stok yang akan dimasukkan: ").strip())
         except:
             print("Inputan tidak sesuai.")
-            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
+            opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
@@ -206,7 +204,7 @@ def tambah_produk():
     df = pd.read_csv("data_produk.csv")
     if (jenis in df["jenis"].values) and (nama in df["nama"].values):
         print("produk sudah ada")
-        input("Tekan enter untuk kembali ke gudang")
+        input("Tekan ENTER untuk kembali ke gudang")
     else:
         data = {
             "jenis" : [jenis],
@@ -223,7 +221,7 @@ def tambah_produk():
         print("\nKatalog terbaru")
         lihat_produk(jenis)
         print("Berhasil ditambahkan!")
-        input("Tekan enter untuk kembali")
+        input("Tekan ENTER untuk kembali")
 
 # Hapus produk
 def hapus_produk():
@@ -236,16 +234,15 @@ def hapus_produk():
         df = pd.read_csv("data_produk.csv")
 
         if (jenis in df["jenis"].values) and (nama in df["nama"].values):
-            index_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)].index
-            df.drop(index=index_produk, inplace=True)
+            df = df[df["nama"] != nama]
             df.to_csv("data_produk.csv", index=False)
             print("\nKatalog Terbaru")
             lihat_produk(jenis)
             print("produk berhasil dihapus!")
-            input("Tekan enter untuk kembali")
+            input("Tekan ENTER untuk kembali")
         else:
             print("produk tidak ada")
-            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
+            opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
@@ -264,7 +261,7 @@ def edit_stok(operasi):
 
         if (jenis in df["jenis"].values) and (nama in df["nama"].values):
 
-            baris_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)]
+            baris_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)].reset_index(drop=True)
             if nama in baris_produk["nama"].values:
                 index_baris_produk = baris_produk.index[0]
                 stok_lama = baris_produk.loc[index_baris_produk, "stok"]
@@ -272,7 +269,7 @@ def edit_stok(operasi):
                 nama = baris_produk.loc[index_baris_produk, "nama"]
             else:
                 print("Produk tidak ada, tolong masukkan nama dengan benar.")
-                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
+                opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
                 if opsi == "0":
                     return
                 continue
@@ -296,7 +293,7 @@ def edit_stok(operasi):
                     df.loc[index_baris_produk, "stok"] = [stok_baru]
             except:
                 print("Inputan tidak valid.")
-                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
+                opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
                 if opsi == "0":
                     return
                 continue
@@ -306,10 +303,10 @@ def edit_stok(operasi):
             print("\nKatalog Terbaru")
             lihat_produk(jenis)
             print("Berhasil diedit!")
-            input("Tekan enter untuk kembali")
+            input("Tekan ENTER untuk kembali")
         else:
             print("Produk tidak ada, tolong masukkan nama dengan benar.")
-            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
+            opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
@@ -338,16 +335,16 @@ def edit_harga():
                 print("\nKatalog Terbaru")
                 lihat_produk(jenis)
                 print("Berhasil diedit!")
-                input("Tekan enter untuk kembali")
+                input("Tekan ENTER untuk kembali")
             else:
                 print("Produk tidak ada, tolong masukkan nama dengan benar.")
-                opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
+                opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
                 if opsi == "0":
                     return
                 continue
         except:
             print("Inputan tidak valid.")
-            opsi = input("Tekan enter untuk mengulang atau 0 untuk kembali> ")
+            opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
@@ -369,7 +366,7 @@ def riwayat_transaksi():
         # Cek apakah file kosong
         if riwayat.empty:
             print("\nRiwayat transaksi kosong.")
-            input("\nTekan enter untuk kembali")
+            input("\nTekan ENTER untuk kembali")
             return
 
         # Menampilkan data riwayat transaksi
@@ -383,7 +380,7 @@ def riwayat_transaksi():
     except Exception as e:
         print(f"Terjadi kesalahan: {e}")
 
-    input("Tekan enter untuk kembali")
+    input("Tekan ENTER untuk kembali")
 
 # ===Riwayat Masukan===
 
@@ -406,7 +403,7 @@ def riwayat_masukan():
     except FileNotFoundError:
         print("\nBelum ada masukan")
 
-    input("Tekan enter untuk kembali")
+    input("Tekan ENTER untuk kembali")
 
 # =========================Fungsi User=========================
 
@@ -417,7 +414,7 @@ def katalog_user():
     while True:
         jenis = input_jenis("Katalog")
         katalog("Katalog", jenis)
-        opsi = input("Tekan enter untuk melihat jenis hasil pertanian lainnya atau '0' untuk kembali")
+        opsi = input("Tekan ENTER untuk melihat jenis hasil pertanian lainnya atau '0' untuk kembali")
         if opsi == "0":
             break
 
@@ -446,7 +443,7 @@ def keranjang(username):
                 nomor_produk = int(input("Masukkan nomor produk yang ingin ditambahkan di keranjang: "))
                 if nomor_produk < 1 or nomor_produk > len(df_produk):
                     print(f"Pilih nomor produk antara 1 dan {len(df_produk)}.")
-                    input("Tekan enter untuk mengulang")
+                    input("Tekan ENTER untuk mengulang")
                     continue
 
                 index_produk = df_produk.index[nomor_produk - 1]
@@ -458,16 +455,16 @@ def keranjang(username):
                 jumlah = int(input(f'berapa {satuan} {nama} yang ingin Anda beli: '))
                 if jumlah < 1 or jumlah > stok:
                     print("Jumlah tidak valid atau stok tidak mencukupi")
-                    input("Tekan enter untuk mengulang")
+                    input("Tekan ENTER untuk mengulang")
                     continue
 
-                total = harga * jumlah
-                total_harga += total
-
-                opsi = input("Tekan enter untuk menambahkan ke keranjang atau ketik '0' untuk membatalkan keranjang: ")
+                opsi = input("Tekan ENTER untuk menambahkan ke keranjang atau ketik '0' untuk membatalkan keranjang: ")
                 if opsi == "0":
                     print(f"\n{nama} sebanyak {jumlah} {satuan} batal dimasukkan ke keranjang.")
                     break
+
+                total = harga * jumlah
+                total_harga += total
 
                 data_keranjang.append([username, jenis, nama, jumlah, harga, total])
                 print(f"\n{nama} sebanyak {jumlah} {satuan} berhasil ditambahkan ke keranjang!")
@@ -478,7 +475,7 @@ def keranjang(username):
                 print("Inputan tidak sesuai.")
                 continue
 
-        opsi = input("\nTekan enter untuk menambahkan barang lain atau ketik 'n' untuk selesai: ").lower()
+        opsi = input("\nTekan ENTER untuk menambahkan barang lain atau ketik 'n' untuk selesai: ").lower()
         if opsi == 'n':
             while True:
                 checkout = input("Apakah anda ingin melanjutkan transaksi? (y/n) ")
@@ -511,45 +508,16 @@ def tentukan_ongkir():
                 ongkir = 15000
             else:
                 print("Masukkan angka 1, 2, 3, atau 4")
-                input("Tekan enter untuk mengulang")
+                input("Tekan ENTER untuk mengulang")
                 continue
             break
         except ValueError:
             print("Input harus berupa angka. Silahkan coba lagi")
-            input("Tekan enter untuk mengulang")
+            input("Tekan ENTER untuk mengulang")
 
     print(f"\nBiaya ongkos kirim adalah {ongkir}")
 
     return ongkir
-
-def cetak_nota(username, data_keranjang, total_harga, harga_ongkir, pembayaran):
-    '''Nota'''
-    header("Nota Pembayaran")
-    print(f"Nama Pembeli: {username}\n")
-
-    nota = []
-
-    for item in data_keranjang:
-        nama = item[3]
-        jumlah = item[4]
-        harga = item[5]
-        total = item[6]
-        nota.append([nama, jumlah, f"Rp{harga}", f"Rp{total}"])
-
-    tabel = tabulate(nota, headers=["Nama", "Jumlah", "Harga", "Total"], tablefmt="fancy_grid")
-    print(tabel)
-
-    print(f"\nTotal: Rp{total_harga}")
-    print(f"Ongkir: Rp{harga_ongkir}")
-    total_harga_akhir = total_harga + harga_ongkir
-    print(f"Total akhir: Rp{total_harga_akhir}")
-
-    if pembayaran >= total_harga_akhir:
-        change = pembayaran - total_harga_akhir
-        print(f"Uang yang dibayarkan: Rp{pembayaran}")
-        print(f"Kembalian: Rp{change}")
-    else:
-        print("Uang yang dibayarkan tidak cukup.")
 
 def simpan_transaksi(data_keranjang):
     '''Simpan Transaksi ke Riwayat'''
@@ -583,6 +551,31 @@ def simpan_transaksi(data_keranjang):
 
     data_produk.to_csv("data_produk.csv", index=False)
 
+def cetak_nota(username, data_keranjang, total_harga, harga_ongkir, pembayaran):
+    '''Nota'''
+    header("Nota Pembayaran")
+    print(f"Nama Pembeli: {username}\n")
+
+    nota = []
+
+    for item in data_keranjang:
+        nama = item[3]
+        jumlah = item[4]
+        harga = item[5]
+        total = item[6]
+        nota.append([nama, jumlah, f"Rp{harga}", f"Rp{total}"])
+
+    tabel = tabulate(nota, headers=["Nama", "Jumlah", "Harga", "Total"], tablefmt="fancy_grid")
+    print(tabel)
+
+    print(f"\nTotal: Rp{total_harga}")
+    print(f"Ongkir: Rp{harga_ongkir}")
+    total_harga_akhir = total_harga + harga_ongkir
+    print(f"Total akhir: Rp{total_harga_akhir}")
+    kembalian = pembayaran - total_harga_akhir
+    print(f"Uang yang dibayarkan: Rp{pembayaran}")
+    print(f"Kembalian: Rp{kembalian}")
+
 def pembelian(username):
     '''Alur Pembelian'''
     data_keranjang, total_harga = keranjang(username)
@@ -602,7 +595,9 @@ def pembelian(username):
                     pembayaran = int(input(f"Total biaya adalah Rp{total_akhir}. Masukkan jumlah uang yang akan dibayar: Rp"))
                     if pembayaran < total_akhir:
                         print("Uang yang dibayarkan tidak cukup.")
-                        input("Tekan enter untuk coba lagi")
+                        opsi = input("Tekan ENTER untuk coba lagi atau '0' untuk kembali")
+                        if opsi == '0':
+                            return
                         continue
                     break
                 except ValueError:
@@ -613,17 +608,18 @@ def pembelian(username):
 
             # Cetak nota
             print("Pembayaran berhasil.")
-            input("Tekan enter untuk melihat nota transaksi anda")
+            input("Tekan ENTER untuk melihat nota transaksi anda")
             cetak_nota(username, data_keranjang, total_harga, ongkir, pembayaran)
             print("\nTransaksi berhasil.")
-            input("Tekan enter untuk melanjutkan")
+            input("Tekan ENTER untuk melanjutkan")
             break
         elif konfirmasi == "n":
             print("\nTransaksi dibatalkan.")
-            input("Tekan enter untuk kembali")
+            input("Tekan ENTER untuk kembali")
             break
         else:
             print("Ketik 'y' untuk ya atau 'n' untuk tidak")
+            input("Tekan ENTER untuk mengulang")
             continue
 
 # ===Masukan===
@@ -638,7 +634,7 @@ def masukan():
     masukan_csv = "masukan.csv"
 
     try:
-        with open(masukan_csv, mode="r", newline='', encoding="utf-8") as file:
+        with open(masukan_csv, mode="r", newline='') as file:
             reader = csv.DictReader(file)
             data = list(reader)
     except FileNotFoundError:
@@ -654,7 +650,7 @@ def masukan():
     data.append(new_row)
 
     # Simpan ke CSV
-    with open(masukan_csv, mode="w", newline='', encoding="utf-8") as file:
+    with open(masukan_csv, mode="w", newline='') as file:
         writer = csv.DictWriter(file, fieldnames=kolom)
 
         # Tulis header hanya jika file kosong
@@ -663,7 +659,7 @@ def masukan():
         writer.writerows(data)
 
     print("\nMasukan anda berhasil disimpan. Terima Kasih!\n")
-    input("Tekan enter untuk kembali")
+    input("Tekan ENTER untuk kembali")
 
 # =========================Navigasi=========================
 
@@ -698,14 +694,14 @@ def menu_admin():
                             break
                         else:
                             print("Opsi tidak valid. Silakan masukkan angka 1, 2, atau 0.")
-                            input("Tekan enter untuk mengulang")
+                            input("Tekan ENTER untuk mengulang")
                 elif opsi == "4":
                     edit_harga()
                 elif opsi == "0":
                     break
                 else:
                     print("Opsi tidak valid. Silakan masukkan angka 1, 2, 3, 4 atau 0.")
-                    input("Tekan enter untuk mengulang")
+                    input("Tekan ENTER untuk mengulang")
 
         elif opsi == "2":
             riwayat_transaksi()
@@ -754,7 +750,7 @@ def main():
             break
         else:
             print("Opsi tidak valid. Silakan masukkan angka 1, 2, atau 0.")
-            input("Tekan enter untuk mengulang")
+            input("Tekan ENTER untuk mengulang")
 
 # ===START===
 
