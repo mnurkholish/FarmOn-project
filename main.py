@@ -261,7 +261,7 @@ def edit_stok(operasi):
 
         if (jenis in df["jenis"].values) and (nama in df["nama"].values):
 
-            baris_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)].reset_index(drop=True)
+            baris_produk = df[(df["jenis"] == jenis) & (df["nama"] == nama)]
             if nama in baris_produk["nama"].values:
                 index_baris_produk = baris_produk.index[0]
                 stok_lama = baris_produk.loc[index_baris_produk, "stok"]
@@ -279,7 +279,7 @@ def edit_stok(operasi):
                     print(f"Stok saat ini: {stok_lama} {satuan}")
                     tambah = int(input(f"Berapa {satuan} {nama} yang akan ditambahkan: "))
                     stok_baru = stok_lama + tambah
-                    df.loc[index_baris_produk, "stok"] = [stok_baru]
+                    df.at[index_baris_produk, "stok"] = [stok_baru]
                 elif operasi == "-":
                     print(f"Stok saat ini: {stok_lama} {satuan}")
                     while True:
@@ -290,7 +290,7 @@ def edit_stok(operasi):
                         break
 
                     stok_baru = stok_lama - kurang
-                    df.loc[index_baris_produk, "stok"] = [stok_baru]
+                    df.at[index_baris_produk, "stok"] = [stok_baru]
             except:
                 print("Inputan tidak valid.")
                 opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
@@ -304,13 +304,13 @@ def edit_stok(operasi):
             lihat_produk(jenis)
             print("Berhasil diedit!")
             input("Tekan ENTER untuk kembali")
+            break
         else:
             print("Produk tidak ada, tolong masukkan nama dengan benar.")
             opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
-        break
 
 # Edit harga
 def edit_harga():
@@ -473,6 +473,7 @@ def keranjang(username):
 
             except ValueError:
                 print("Inputan tidak sesuai.")
+                input("Tekan ENTER untuk mengulang")
                 continue
 
         opsi = input("\nTekan ENTER untuk menambahkan barang lain atau ketik 'n' untuk selesai: ").lower()
@@ -582,6 +583,7 @@ def pembelian(username):
 
     if not data_keranjang:
         print("\nKeranjang kosong. Transaksi dibatalkan.")
+        input("Tekan ENTER untuk kembali")
         return
 
     ongkir = tentukan_ongkir()
@@ -709,6 +711,9 @@ def menu_admin():
             riwayat_masukan()
         elif opsi == "0":
             break
+        else:
+            print("Opsi tidak valid. Silakan masukkan angka 1, 2, 3 atau 0.")
+            input("Tekan ENTER untuk mengulang")
 
 def menu_user(username):
     '''Menu User'''
@@ -725,6 +730,9 @@ def menu_user(username):
             masukan()
         elif opsi == "0":
             break
+        else:
+            print("Opsi tidak valid. Silakan masukkan angka 1, 2, 3 atau 0.")
+            input("Tekan ENTER untuk mengulang")
 
 # =========================Main Program=========================
 
