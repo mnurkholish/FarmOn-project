@@ -718,7 +718,7 @@ def menu_user(username):
         header("Menu User")
         print("Pilih opsi:")
         print("1. Lihat Katalog\n2. Pembelian\n3. Masukan\n0. Kembali")
-        opsi = input("Masukkan pilihan opsi sesuai angka (1/2/0)> ")
+        opsi = input("Masukkan pilihan opsi sesuai angka (1/2/3/0)> ")
         if opsi == "1":
             katalog_user()
         elif opsi == "2":
