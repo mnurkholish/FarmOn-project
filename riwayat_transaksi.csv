@@ -1,1 +1,7 @@
 no,username,jenis,nama,jumlah,harga,total
+1,user1,sayuran,terong,2,10000,20000
+2,user1,serealia,sorghum,4,23000,92000
+2,user1,buah,alpukat,2,21000,42000
+2,user1,rempah,lengkuas,1,18000,18000
+3,user1,buah,semangka,1,10000,10000
+3,user1,sayuran,wortel,3,12000,36000
