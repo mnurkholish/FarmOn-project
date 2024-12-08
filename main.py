@@ -643,20 +643,16 @@ def masukan():
     except FileNotFoundError:
         data = []
 
-    # Input dari user
     print("=== Masukan saran anda ===")
     nama = input("Nama anda: ").strip()
     saran = input("Tuliskan saran anda: ").strip()
 
-    # Menambahkan masukan ke data
     new_row = {"Nama": nama, "Saran": saran}
     data.append(new_row)
 
-    # Simpan ke CSV
     with open(masukan_csv, mode="w", newline='') as file:
         writer = csv.DictWriter(file, fieldnames=kolom)
 
-        # Tulis header hanya jika file kosong
         if file.tell() == 0:
             writer.writeheader()
         writer.writerows(data)
