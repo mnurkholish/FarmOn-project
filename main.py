@@ -604,6 +604,7 @@ def pembelian(username):
                     break
                 except ValueError:
                     print("Input tidak valid. Harap masukkan angka yang benar.")
+                    input("Tekan ENTER untuk mengulang")
 
             # Simpan transaksi
             simpan_transaksi(data_keranjang)
