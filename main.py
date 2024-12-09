@@ -626,6 +626,7 @@ def masukan():
         with open(masukan_csv, mode="r", newline='') as file:
             reader = csv.DictReader(file)
             data = list(reader)
+            print(data)
     except FileNotFoundError:
         data = []
 
@@ -636,11 +637,11 @@ def masukan():
     new_row = {"Nama": nama, "Saran": saran}
     data.append(new_row)
 
+
     with open(masukan_csv, mode="w", newline='') as file:
         writer = csv.DictWriter(file, fieldnames=kolom)
 
-        if file.tell() == 0:
-            writer.writeheader()
+        writer.writeheader()
         writer.writerows(data)
 
     print("\nMasukan anda berhasil disimpan. Terima Kasih!\n")
