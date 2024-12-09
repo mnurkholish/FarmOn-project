@@ -364,12 +364,8 @@ def riwayat_transaksi():
         print("\n=== Riwayat Transaksi ===")
         print(tabulate(riwayat, headers="keys", tablefmt="fancy_grid", showindex=False))
 
-    except FileNotFoundError:
-        print("File 'riwayat_transaksi.csv' tidak ditemukan.")
-    except pd.errors.EmptyDataError:
-        print("File 'riwayat_transaksi.csv' kosong.")
-    except Exception as e:
-        print(f"Terjadi kesalahan: {e}")
+    except:
+        print("Terjadi kesalahan")
 
     input("Tekan ENTER untuk kembali")
 
