@@ -45,26 +45,25 @@ def outro():
 
 def login():
     '''Login'''
-    while True:
-        header("Login")
+    header("Login")
 
-        username = input("Username: ").strip()
-        password = input("Password: ").strip()
+    username = input("Username: ").strip()
+    password = input("Password: ").strip()
 
-        df = pd.read_csv("akun_pengguna.csv")
+    df = pd.read_csv("akun_pengguna.csv")
 
-        ambil_role = df[(df["username"] == username) & (df["password"] == password)]
+    ambil_role = df[(df["username"] == username) & (df["password"] == password)]
 
-        if ambil_role.empty:
-            role = None
-            print("Login gagal, pilih opsi Registrasi untuk membuat akun.")
-            input("Tekan ENTER untuk kembali")
-        else:
-            role = ambil_role.iloc[0]['role']
-            print(f"Login berhasil.\nSelamat datang {username}.")
-            input("Tekan ENTER untuk melanjutkan")
+    if ambil_role.empty:
+        role = None
+        print("Login gagal, pilih opsi Registrasi untuk membuat akun.")
+        input("Tekan ENTER untuk kembali")
+    else:
+        role = ambil_role.iloc[0]['role']
+        print(f"Login berhasil.\nSelamat datang {username}.")
+        input("Tekan ENTER untuk melanjutkan")
 
-        return username, role
+    return username, role
 
 # ===Registrasi===
 
