@@ -77,21 +77,18 @@ def registrasi():
         password = input("password: ").strip()
         role = "user"
 
-        # validasi username harus ada
         if not username:
             print("Username tidak boleh kosong")
             opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
-        # validasi password harus ada
         if not password:
             print("Password tidak boleh kosong")
             opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
             continue
-        # validasi password harus berupa huruf dan angka
         if password:
             huruf = False
             angka = False
@@ -110,7 +107,6 @@ def registrasi():
 
         df = pd.read_csv('akun_pengguna.csv')
 
-        # validasi username harus berbeda dari yang sudah ada
         if username in df["username"].values:
             print("username sudah ada, buatlah username yang berbeda")
             opsi = input("tekan ENTER untuk mengulang atau 0 untuk kembali> ")
@@ -118,10 +114,8 @@ def registrasi():
                 return
             continue
 
-        # jika syarat terpenuhi, membuat data baru
         user_baru = pd.DataFrame([[username, password, role]], columns=["username", "password", "role"])
 
-        # mengupdate data
         df = pd.concat([df, user_baru], ignore_index=True)
         df.to_csv('akun_pengguna.csv', index=False)
 
@@ -360,16 +354,13 @@ def riwayat_transaksi():
     try:
         header("Riwayat Transaksi")
 
-        # Membaca file CSV
         riwayat = pd.read_csv("riwayat_transaksi.csv")
 
-        # Cek apakah file kosong
         if riwayat.empty:
             print("\nRiwayat transaksi kosong.")
             input("\nTekan ENTER untuk kembali")
             return
 
-        # Menampilkan data riwayat transaksi
         print("\n=== Riwayat Transaksi ===")
         print(tabulate(riwayat, headers="keys", tablefmt="fancy_grid", showindex=False))
 
@@ -391,7 +382,6 @@ def riwayat_masukan():
     header("Riwayat Masukan")
     masukan_csv = "masukan.csv"
 
-    # Coba membaca file CSV
     try:
         df = pd.read_csv(masukan_csv)
         if df.empty:
