@@ -625,7 +625,6 @@ def masukan():
         with open(masukan_csv, mode="r", newline='') as file:
             reader = csv.DictReader(file)
             data = list(reader)
-            print(data)
     except FileNotFoundError:
         data = []
 
