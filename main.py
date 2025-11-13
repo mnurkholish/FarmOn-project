@@ -186,7 +186,7 @@ def tambah_produk():
             satuan = input("Tentukan satuan yang digunakan (kg/ikat/buah): ").strip().lower()
             harga = int(input(f"Tentukan harga per-{satuan}: ").strip())
             stok = int(input(f"Berapa {satuan} stok yang akan dimasukkan: ").strip())
-        except:
+        except ValueError:
             print("Inputan tidak sesuai.")
             opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
@@ -284,8 +284,14 @@ def edit_stok(operasi):
 
                     stok_baru = stok_lama - kurang
                     df.at[index_baris_produk, "stok"] = [stok_baru]
-            except:
+            except ValueError:
                 print("Inputan tidak valid.")
+                opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
+                if opsi == "0":
+                    return
+                continue
+            except FileNotFoundError:
+                print("Data produk tidak ditemukan.")
                 opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
                 if opsi == "0":
                     return
@@ -335,8 +341,14 @@ def edit_harga():
                 if opsi == "0":
                     return
                 continue
-        except:
+        except ValueError:
             print("Inputan tidak valid.")
+            opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
+            if opsi == "0":
+                return
+            continue
+        except FileNotFoundError:
+            print("Data produk tidak ditemukan.")
             opsi = input("Tekan ENTER untuk mengulang atau 0 untuk kembali> ")
             if opsi == "0":
                 return
@@ -363,7 +375,7 @@ def riwayat_transaksi():
         print("\n=== Riwayat Transaksi ===")
         print(tabulate(riwayat, headers="keys", tablefmt="fancy_grid", showindex=False))
 
-    except:
+    except FileNotFoundError:
         print("Terjadi kesalahan")
 
     input("Tekan ENTER untuk kembali")
@@ -622,7 +634,7 @@ def masukan():
     masukan_csv = "masukan.csv"
 
     try:
-        with open(masukan_csv, mode="r", newline='') as file:
+        with open(masukan_csv, mode="r", newline='', encoding='utf-8') as file:
             reader = csv.DictReader(file)
             data = list(reader)
     except FileNotFoundError:
@@ -636,7 +648,7 @@ def masukan():
     data.append(new_row)
 
 
-    with open(masukan_csv, mode="w", newline='') as file:
+    with open(masukan_csv, mode="w", newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=kolom)
 
         writer.writeheader()
